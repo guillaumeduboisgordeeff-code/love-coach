@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_23_180152) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_23_182526) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -20,6 +20,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_180152) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_chats_on_user_id"
+  end
+
+  create_table "masterplans", force: :cascade do |t|
+    t.string "woman_name"
+    t.bigint "message_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id"], name: "index_masterplans_on_message_id"
+    t.index ["user_id"], name: "index_masterplans_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -47,5 +57,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_180152) do
   end
 
   add_foreign_key "chats", "users"
+  add_foreign_key "masterplans", "messages"
+  add_foreign_key "masterplans", "users"
   add_foreign_key "messages", "chats"
 end
