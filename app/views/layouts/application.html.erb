@@ -28,10 +28,11 @@
   <header>
     <%= render "shared/navbar" %> <!-- 👈 Add this for navbar -->
   </header>
-
-  <main id="main-content">
-    <%= yield %>
-  </main>
-  <%= render "shared/flashes" %>
+  <div class="container">
+    <main id="main-content">
+      <%= yield %>
+    </main>
+    <%= render "shared/flashes" %>
+  </div>
   </body>
 </html>

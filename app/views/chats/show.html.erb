@@ -1,12 +1,16 @@
 <div class="row">
   <div class="col">
     <h1><%= @chat.title %></h1>
-     <div class="mb-4">
-        <ul>
-          <% @messages.each do |message| %>
-            <li><%= raw(render_markdown(message.content)) %></li>
-            <% end %>
-        </ul>
+     <div class="messages">
+        <%= render partial: "message", collection: @messages %>
      </div>
+     <%= simple_form_for [@chat, @message], html: { class: "mt-4" } do |f| %>
+      <%= f.input :content,
+            as: :text,
+            label: false,
+            placeholder: "Écris ton message…",
+            input_html: { rows: 3 } %>
+      <%= f.button :submit, "Envoyer", class: "btn btn-primary" %>
+<% end %>
   </div>
 </div>
