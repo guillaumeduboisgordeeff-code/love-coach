@@ -1,1 +1,156 @@
-// Specific CSS for your home-page
+// ---------- Home page ----------
+.home-hero {
+  --radius: #{"min(42vw, 52vh)"};
+  --face: #{"clamp(200px, 15vmin, 310px)"};
+  --spin: 30s;
+
+  position: relative;
+  height: calc(100vh - 70px); // hauteur écran moins la navbar
+  min-height: 480px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 100%, #fff4d6 0%, #ffe0ea 45%, #f6d9ff 100%);
+}
+
+// ---------- Pluie de billets ----------
+.money-rain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.money-bill {
+  position: absolute;
+  top: -10%;
+  animation-name: money-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@keyframes money-fall {
+  0%   { transform: translate(0, 0) rotate(-15deg); }
+  25%  { transform: translate(var(--sway), 30vh) rotate(15deg); }
+  50%  { transform: translate(0, 60vh) rotate(-15deg); }
+  75%  { transform: translate(calc(var(--sway) * -1), 90vh) rotate(15deg); }
+  100% { transform: translate(0, 120vh) rotate(-15deg); }
+}
+
+// ---------- Titre au-dessus de l'arche ----------
+.home-title {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--radius) + var(--face) * 0.8);
+  transform: translateX(-50%);
+  width: 90%;
+  margin: 0;
+  text-align: center;
+  font-weight: 800;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  color: #d6336c;
+  text-shadow: 0 4px 0 #ffc65a, 0 8px 20px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+}
+
+// ---------- Arche de grands-mères ----------
+// Le cercle est centré sur le bas de l'écran : seule sa moitié haute est
+// visible, ce qui forme une arche qui tourne en continu.
+.granny-arch {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  z-index: 2;
+}
+
+.granny-ring {
+  position: absolute;
+  inset: 0;
+  animation: granny-spin var(--spin) linear infinite;
+}
+
+.granny-slot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: rotate(var(--angle)) translateY(calc(var(--radius) * -1)) rotate(calc(var(--angle) * -1));
+}
+
+.granny-face {
+  width: var(--face);
+  height: var(--face);
+  margin-left: calc(var(--face) / -2);
+  margin-top: calc(var(--face) / -2);
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-shadow: 0 6px 18px rgba(214, 51, 108, 0.3);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // contre-rotation pour garder les portraits droits
+  animation: granny-spin var(--spin) linear infinite reverse;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  span {
+    font-size: calc(var(--face) * 0.62);
+    line-height: 1;
+  }
+}
+
+@keyframes granny-spin {
+  to { transform: rotate(360deg); }
+}
+
+// ---------- Texte et bouton sous l'arche ----------
+.home-cta {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--radius) * 0.18);
+  transform: translateX(-50%);
+  width: unquote("min(90%, calc(var(--radius) * 1.5))");
+  text-align: center;
+  z-index: 3;
+
+  p {
+    font-size: clamp(1.1rem, 2.6vw, 1.8rem);
+    font-weight: 600;
+    color: #3a2a3f;
+    margin-bottom: 1.2rem;
+  }
+}
+
+.btn-get-rich {
+  padding: 0.8rem 2.4rem;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #3a2a3f;
+  background: linear-gradient(135deg, #ffc65a, #1edd88);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(30, 221, 136, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover,
+  &:focus {
+    color: #3a2a3f;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(30, 221, 136, 0.55);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .money-bill,
+  .granny-ring,
+  .granny-face {
+    animation: none;
+  }
+}
