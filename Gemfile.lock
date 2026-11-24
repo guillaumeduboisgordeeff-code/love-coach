@@ -498,6 +498,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
+  json
   kamal
   kramdown
   kramdown-parser-gfm
