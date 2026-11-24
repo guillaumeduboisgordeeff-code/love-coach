@@ -74,3 +74,6 @@ group :test do
 end
 
 gem "ruby_llm", "~> 2.2"
+gem "kramdown"
+gem "rouge"
+gem "kramdown-parser-gfm"
