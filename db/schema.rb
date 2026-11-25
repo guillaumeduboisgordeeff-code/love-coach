@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_24_151734) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_25_181703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -35,7 +35,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_24_151734) do
   create_table "messages", force: :cascade do |t|
     t.string "role"
     t.text "content"
-    t.boolean "masterplan", default: false, null: false
     t.bigint "chat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
