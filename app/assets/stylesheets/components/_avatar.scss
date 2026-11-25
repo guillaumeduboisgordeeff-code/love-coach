@@ -1,20 +1,31 @@
 .avatar {
-  width: 40px;
-  border-radius: 50%;
+  width: 40px;         // Définit la largeur
+  height: 40px;        // Définit la même hauteur que la largeur
+  border-radius: 50%;  // Arrondit l’image en cercle
+  object-fit: cover;   // Recadre l’image sans la déformer
 }
+
 .avatar-large {
-  width: 56px;
-  border-radius: 50%;
+  width: 56px;         // Définit la largeur
+  height: 56px;        // Définit la même hauteur que la largeur
+  border-radius: 50%;  // Arrondit l’image en cercle
+  object-fit: cover;   // Recadre l’image sans la déformer
 }
+
 .avatar-bordered {
-  width: 40px;
-  border-radius: 50%;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  border: white 1px solid;
+  width: 40px;         // Définit la largeur
+  height: 40px;        // Définit la même hauteur que la largeur
+  border-radius: 50%;  // Arrondit l’image en cercle
+  object-fit: cover;   // Recadre l’image sans la déformer
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); // Ajoute une légère ombre
+  border: 1px solid white; // Ajoute une bordure blanche
 }
+
 .avatar-square {
-  width: 40px;
-  border-radius: 0px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  border: white 1px solid;
+  width: 40px;         // Définit la largeur
+  height: 40px;        // Définit la même hauteur que la largeur
+  border-radius: 0;    // Garde l’image carrée
+  object-fit: cover;   // Recadre l’image sans la déformer
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); // Ajoute une légère ombre
+  border: 1px solid white; // Ajoute une bordure blanche
 }

@@ -1,38 +1,39 @@
-<nav class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <div class="container-fluid">
-    <%= link_to "#", class: "navbar-brand" do %>
-      <%= image_tag "https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/logo.png" %>
-    <% end %>
+<nav class="navbar navbar-expand-sm navbar-light navbar-lewagon"> <!-- Barre de navigation -->
+  <div class="container-fluid"> <!-- Conteneur de la navbar -->
+    <%= link_to root_path, class: "navbar-brand" do %> <!-- Le logo renvoie vers l’accueil -->
+      <%= image_tag "logo.png", alt: "Love Coach" %> <!-- Image du logo -->
+    <% end %> <!-- Fin du lien du logo -->
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Ouvrir le menu"> <!-- Bouton du menu sur petit écran -->
+      <span class="navbar-toggler-icon"></span> <!-- Icône du bouton -->
+    </button> <!-- Fin du bouton du menu -->
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
-        <% if user_signed_in? %>
-          <li class="nav-item active">
-            <%= link_to "Home", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Messages", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item dropdown">
-          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
-          </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
-              <%= link_to "Another action", "#", class: "dropdown-item" %>
-              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
-            </div>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-</nav>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent"> <!-- Contenu repliable de la navbar -->
+      <ul class="navbar-nav me-auto"> <!-- Liste des liens de navigation -->
+        <% if user_signed_in? %> <!-- Vérifie si l’utilisateur est connecté -->
+          <li class="nav-item"> <!-- Élément du menu Get Rich -->
+            <%= link_to "Rencontrer un riche", chats_path, class: "nav-link" %> <!-- Lien temporaire : remplace # par la route Get Rich -->
+          </li> <!-- Fin de l’élément Get Rich -->
+
+          <li class="nav-item"> <!-- Élément du menu Masterplans -->
+            <%= link_to "Masterplans", masterplans_path, class: "nav-link" %> <!-- Lien vers les Masterplans -->
+          </li> <!-- Fin de l’élément Masterplans -->
+
+          <li class="nav-item dropdown"> <!-- Menu déroulant du profil -->
+            <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <!-- Bouton du menu profil -->
+              <%= image_tag "avatar.png", class: "avatar", alt: "Menu utilisateur" %> <!-- Image de l’utilisateur -->
+            </a> <!-- Fin du bouton du menu profil -->
+
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"> <!-- Options du menu profil -->
+              <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %> <!-- Lien de déconnexion -->
+            </div> <!-- Fin des options du menu profil -->
+          </li> <!-- Fin du menu profil -->
+        <% else %> <!-- Affiche le lien suivant si l’utilisateur n’est pas connecté -->
+          <li class="nav-item"> <!-- Élément du menu de connexion -->
+            <%= link_to "Login", new_user_session_path, class: "nav-link" %> <!-- Lien vers la connexion -->
+          </li> <!-- Fin de l’élément de connexion -->
+        <% end %> <!-- Fin de la condition de connexion -->
+      </ul> <!-- Fin de la liste des liens -->
+    </div> <!-- Fin du contenu repliable -->
+  </div> <!-- Fin du conteneur -->
+</nav> <!-- Fin de la navbar -->
