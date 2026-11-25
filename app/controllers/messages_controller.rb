@@ -71,8 +71,11 @@ class MessagesController < ApplicationController
       # on pose la question au LLM
       response = llm_chat.ask(@message.content)
       # on enregistre la réponse dans la base messages du chat
-      @chat.messages.create!(role: "assistant", content: response.content)
-
+      assistant_message = @chat.messages.create!(role: "assistant", content: response.content)
+      # on parse le JSON renvoyé par le LLM en dernier message
+      data = parse_masterplan(assistant_message.content)
+      # on crée le masterplan
+      create_masterplan!(assistant_message, data) if data
       redirect_to chat_path(@chat)
     else
       @messages = @chat.messages.order(created_at: :asc)
@@ -93,5 +96,17 @@ class MessagesController < ApplicationController
     # renvoyer nil si le parsing echoue
   rescue JSON::ParserError
     nil
+  end
+
+  def create_masterplan!(message, data)
+    # transaction pour garantir que toutes les tâches sont transformées
+    ActiveRecord::Base.transaction do
+      # créer le masterplan
+      masterplan = current_user.masterplans.create!(message: message, woman_name: data["woman_name"])
+      # itérer sur les "tasks" du hash renvoyé pour créer les tasks
+      data["tasks"].each do |task|
+        masterplan.tasks.create!(description: task["description"])
+      end
+    end
   end
 end
