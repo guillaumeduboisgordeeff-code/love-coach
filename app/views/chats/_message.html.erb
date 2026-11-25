@@ -1,0 +1,5 @@
+<div class="message message--<%= message.role %>">
+  <div class="message__bubble">
+    <%= sanitize(render_markdown(message.content)) %>
+  </div>
+</div>
