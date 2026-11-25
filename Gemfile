@@ -77,3 +77,7 @@ gem "ruby_llm", "~> 2.2"
 gem "kramdown"
 gem "rouge"
 gem "kramdown-parser-gfm"
+
+# add ruby-vips gem because of the migration failure towards heroku to deal with warning regarding image variants
+
+gem "ruby-vips", "~> 2.3"

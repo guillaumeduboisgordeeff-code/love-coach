@@ -499,6 +499,7 @@ DEPENDENCIES
   rails (~> 8.1.4, >= 8.1.4.1)
   rouge
   rubocop-rails-omakase
+  ruby-vips (~> 2.3)
   ruby_llm (~> 2.2)
   sassc-rails
   selenium-webdriver
