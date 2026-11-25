@@ -3,7 +3,6 @@ class MessagesController < ApplicationController
   # - woman_name : la cible peut être un homme -> renommer en target_name ?
   # - Pas de colonne pour : titre du plan, fortune estimée, vanne finale
   # - title et venality_score des tâches sont mis dans description
-  # - messages.masterplan (boolean) masqué par has_one :masterplan -> supprimer ou renommer ?
   INSTRUCTIONS = <<~INSTRUCTIONS
     Tu es l’IA d’une appli de love coaching satirique et humoristique : le but est de choper quelqu’un de blindé de thunes.
     Ici, l’amour c’est du business et le romantisme sert à faire signer le chèque.
@@ -85,5 +84,14 @@ class MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:content)
+  end
+
+  def parse_masterplan(content)
+    # parser le contenu
+    final_assistant_answer = JSON.parse(content)
+    # renvoyer nil si le parsing echoue
+    final_assistant_answer.is_a?(Hash) && final_assistant_answer.key?("woman_name") && final_assistant_answer.key?("tasks") ? final_assistant_answer : nil
+  rescue JSON::ParserError
+    nil
   end
 end
