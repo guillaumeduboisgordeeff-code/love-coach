@@ -1,5 +1,13 @@
-<div class="message message--<%= message.role %>">
-  <div class="message__bubble">
-    <%= sanitize(render_markdown(message.content)) %>
+<% masterplan = message.masterplan %>
+  <div class="message message--<%= message.role %>">
+    <div class="message__bubble">
+      <% if masterplan %>
+        <div class="card">
+          <p>Ton masterplan pour <%= masterplan.woman_name %> est prêt</p>
+          <%= link_to 'Voir mon masterplan', masterplan_path(masterplan), class: "btn btn-primary" %>
+        </div>
+      <% else %>
+        <%= sanitize(render_markdown(message.content)) %>
+      <% end %>
+    </div>
   </div>
-</div>
