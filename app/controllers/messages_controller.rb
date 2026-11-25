@@ -89,8 +89,8 @@ class MessagesController < ApplicationController
   def parse_masterplan(content)
     # parser le contenu
     final_assistant_answer = JSON.parse(content)
-    # renvoyer nil si le parsing echoue
     final_assistant_answer.is_a?(Hash) && final_assistant_answer.key?("woman_name") && final_assistant_answer.key?("tasks") ? final_assistant_answer : nil
+    # renvoyer nil si le parsing echoue
   rescue JSON::ParserError
     nil
   end
