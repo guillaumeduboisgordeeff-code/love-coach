@@ -1,0 +1,20 @@
+<h1>My Adventures</h1>
+
+<% if @masterplans.empty? %>
+  <h2>No love stories yet?</h2>
+
+  <p>
+    Your romantic life won't fix itself.
+    Well, let's give it a little push.
+  </p>
+
+  <%= link_to "Find me a soulmate", root_path %>
+
+<% else %>
+  <% @masterplans.each do |masterplan| %>
+    <div>
+      <h2><%= masterplan.woman_name %></h2>
+      <%= link_to "View adventure", masterplan_path(masterplan) %>
+    </div>
+  <% end %>
+<% end %>

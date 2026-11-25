@@ -1,2 +1,34 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<section class="home-hero">
+  <div class="money-rain" aria-hidden="true">
+    <% 28.times do %>
+      <span class="money-bill"
+            style="left: <%= rand(0..98) %>%; font-size: <%= rand(1.4..2.8).round(2) %>rem; animation-delay: -<%= rand(0.0..8.0).round(2) %>s; animation-duration: <%= rand(5.0..10.0).round(2) %>s; --sway: <%= rand(-40..40) %>px;">💸</span>
+    <% end %>
+  </div>
+
+  <h1 class="home-title">Welcome To Love Coach</h1>
+
+  <div class="granny-arch" aria-hidden="true">
+    <div class="granny-ring">
+      <% photos = %w[riche1.jpeg riche2.jpg riche3.jpg riche4.jpg riche5.jpeg
+                     riche6.jpg riche7.jpg riche8.jpg riche9.jpeg riche10.jpg] %>
+      <% photos.each_with_index do |photo, i| %>
+        <div class="granny-slot" style="--angle: <%= i * 36 %>deg;">
+          <div class="granny-face">
+            <%= image_tag photo, alt: "" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="home-cta">
+
+    <% if user_signed_in? %>
+      <%= link_to "Rencontrer un riche", masterplans_path, class: "btn btn-get-rich" %>
+    <% else %>
+    <p>Ta carrière ne décolle pas ?<br>Tu stagnes dans ta vie ?<br></p>
+      <%= link_to "Connecte-toi et rencontre un riche !", new_user_session_path, class: "btn btn-get-rich" %>
+    <% end %>
+  </div>
+</section>
