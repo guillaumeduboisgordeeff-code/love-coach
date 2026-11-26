@@ -1,12 +1,8 @@
 <section class="home-hero">
-  <div class="money-rain" aria-hidden="true">
-    <% 28.times do %>
-      <span class="money-bill"
-            style="left: <%= rand(0..98) %>%; font-size: <%= rand(1.4..2.8).round(2) %>rem; animation-delay: -<%= rand(0.0..8.0).round(2) %>s; animation-duration: <%= rand(5.0..10.0).round(2) %>s; --sway: <%= rand(-40..40) %>px;">💸</span>
-    <% end %>
+  <div class="home-heading">
+    <h1 class="home-title">Bienvenue sur</h1>
+    <%= image_tag "love-coach-logo.png", alt: "Love Coach", class: "home-logo" %>
   </div>
-
-  <h1 class="home-title">Welcome To Love Coach</h1>
 
   <div class="granny-arch" aria-hidden="true">
     <div class="granny-ring">
@@ -22,12 +18,24 @@
     </div>
   </div>
 
-  <div class="home-cta">
+  <% if user_signed_in? %>
+    <%# Le coach se penche dans l'écran depuis la gauche %>
+    <div class="coach coach--lean" aria-hidden="true">
+      <%= image_tag "the_coach.png", alt: "", class: "coach-img" %>
+    </div>
+  <% else %>
+    <%# Seul le torse du coach dépasse, sous l'arche, et il parle dans une bulle %>
+    <div class="coach coach--peek">
+      <%= image_tag "the_coach.png", alt: "", class: "coach-img" %>
+      <p class="speech-bubble">Ta carrière ne décolle pas ?<br>Tu stagnes dans ta vie ?</p>
+    </div>
+  <% end %>
 
+  <div class="home-cta <%= "home-cta--guest" unless user_signed_in? %>">
     <% if user_signed_in? %>
-      <%= link_to "Rencontrer un riche", masterplans_path, class: "btn btn-get-rich" %>
+      <%# Explosion d'emojis puis POST /chats : voir controllers/heart_burst_controller.js %>
+      <%= link_to "Rencontrer un riche", chats_path, data: { controller: "heart-burst", action: "heart-burst#explode" }, class: "btn-heart" %>
     <% else %>
-    <p>Ta carrière ne décolle pas ?<br>Tu stagnes dans ta vie ?<br></p>
       <%= link_to "Connecte-toi et rencontre un riche !", new_user_session_path, class: "btn btn-get-rich" %>
     <% end %>
   </div>

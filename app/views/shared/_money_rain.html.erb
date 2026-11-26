@@ -1,0 +1,7 @@
+<%# Pluie de billets en fond de toutes les pages (styles : components/_site_background.scss) %>
+<div class="money-rain" aria-hidden="true">
+  <% 28.times do %>
+    <span class="money-bill"
+          style="left: <%= rand(0..98) %>%; font-size: <%= rand(1.9..5.8).round(2) %>rem; animation-delay: -<%= rand(0.0..8.0).round(2) %>s; animation-duration: <%= rand(5.0..10.0).round(2) %>s; --sway: <%= rand(-40..40) %>px;">💸</span>
+  <% end %>
+</div>

@@ -1,6 +1,51 @@
+:root {
+  --navbar-height: 100px;
+}
+
+// La navbar flotte par-dessus le haut de la page : là où le léopard est
+// transparent, on voit le fond de la page (et non plus le fond gris du body).
+// Classe dédiée (et pas la balise `header`), sinon les <header> des pages
+// (ex. .masterplans-heading) passent aussi en absolute par-dessus la navbar.
+.site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999; // au-dessus de tout, sur tout le site
+}
+
+// Le contenu commence sous la navbar…
+main {
+  padding-top: var(--navbar-height);
+}
+
+// …sauf les pages qui ont leur propre fond : il remonte derrière la navbar
+.home-hero,
+.masterplans-page {
+  margin-top: calc(-1 * var(--navbar-height));
+}
+
 .navbar-lewagon {
+  position: relative;
+  isolation: isolate; // garde le ::before (z-index: -1) derrière le contenu de la navbar
   justify-content: space-between;
-  background: white;
+  height: var(--navbar-height);
+
+  // Fond léopard sur un calque à part, pour que le dégradé d'opacité
+  // ne touche que le motif (pas les liens, le logo ni l'avatar)
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: image-url("leopard-seamless-pattern.avif");
+    background-repeat: repeat;   // le carreau se répète
+    background-size: 1000px;
+
+    // De gauche à droite : 0% sur 0–25 %, fondu de 0 à 100 % sur 25–50 %, 100 % sur 50–100 %
+    -webkit-mask-image: linear-gradient(to right, transparent 25%, black 50%);
+            mask-image: linear-gradient(to right, transparent 25%, black 50%);
+  }
 }
 
 .navbar-lewagon .navbar-collapse {
@@ -8,5 +53,22 @@
 }
 
 .navbar-lewagon .navbar-brand img {
-  width: 40px;
+  width: 480px;
+}
+
+
+// Le look des liens (.nav-link) vient de components/_button.scss
+.nav-item {
+  margin-right: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar {
+  height: 80px;
+  width: 80px;
+  border: 4px solid white;
+  padding: 0px;
+  border-radius: 50px
 }

@@ -4,10 +4,9 @@
   --story-yellow: #ffc65a;
   --story-green: #1edd88;
 
-  min-height: calc(100vh - 70px);
-  padding: 4.5rem 1.25rem 5rem;
+  min-height: 100vh; // plein écran : la navbar flotte par-dessus
+  padding: calc(var(--navbar-height) + 4.5rem) 1.25rem 5rem;
   color: var(--story-ink);
-  background: linear-gradient(155deg, #fff4d6 0%, #ffe0ea 48%, #fff 100%);
 }
 
 .masterplans-shell {
@@ -108,22 +107,6 @@
 .masterplans-cta {
   justify-self: start;
   margin-top: 0.5rem;
-  padding: 0.85rem 1.35rem;
-  border: 0;
-  border-radius: 40px;
-  background: linear-gradient(120deg, var(--story-yellow), var(--story-green));
-  color: var(--story-ink);
-  font: inherit;
-  font-weight: 800;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 160ms ease;
-
-  &:hover,
-  &:focus {
-    color: var(--story-ink);
-    transform: translateY(-2px);
-  }
 }
 
 .masterplans-cta-form {
@@ -153,7 +136,7 @@
 
 @media (max-width: 600px) {
   .masterplans-page {
-    padding: 3rem 1rem;
+    padding: calc(var(--navbar-height) + 3rem) 1rem 3rem;
   }
 
   .masterplans-heading h1 {
