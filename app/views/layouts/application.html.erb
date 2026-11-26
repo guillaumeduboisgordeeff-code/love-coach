@@ -23,7 +23,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body data-controller="fur-buttons"> <%# fourrure sur les boutons : controllers/fur_buttons_controller.js %>
     <%= link_to "Skip to main content", "#main-content", class: "visually-hidden-focusable" %>
   <%= render "shared/money_rain" %>
   <header class="site-header">
