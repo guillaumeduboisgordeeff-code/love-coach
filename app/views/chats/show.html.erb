@@ -1,7 +1,15 @@
 <div class="row">
-  <div class="col">
+  <div class="col" data-controller="chat" data-action="turbo:submit-start->chat#showPending turbo:submit-end->chat#clearPending">
+    <template data-chat-target="pending">
+      <div class="message message--user" data-pending>
+        <div class="message__bubble" data-pending-content></div>
+      </div>
+      <div class="message message--assistant" data-pending>
+        <div class="message__bubble">…</div>
+      </div>
+    </template>
     <h1 id="chat_title"><%= @chat.title %></h1>
-     <div class="messages" id="messages">
+     <div class="messages" id="messages" data-chat-target="messages">
         <%= render partial: "chats/message", collection: @messages %>
      </div>
      <div id="new_message_container">
