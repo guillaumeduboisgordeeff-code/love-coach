@@ -71,15 +71,32 @@ class MessagesController < ApplicationController
       # on pose la question au LLM
       response = llm_chat.ask(@message.content)
       # on enregistre la réponse dans la base messages du chat
-      assistant_message = @chat.messages.create!(role: "assistant", content: response.content)
+      @assistant_message = @chat.messages.create!(role: "assistant", content: response.content)
+      # on crée le titre du message sur la base du premier message
+      @chat.generate_title_from_first_message
       # on parse le JSON renvoyé par le LLM en dernier message
-      data = parse_masterplan(assistant_message.content)
+      data = parse_masterplan(@assistant_message.content)
       # on crée le masterplan
-      create_masterplan!(assistant_message, data) if data
-      redirect_to chat_path(@chat)
+      create_masterplan!(@assistant_message, data) if data
+      # affichage sans rechargement avec turbostream et fallback html si turbo inactif sur nav
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to chat_path(@chat) }
+      end
     else
-      @messages = @chat.messages.order(created_at: :asc)
-      render "chats/show", status: :unprocessable_content
+      # affichage turbo du formulaire en cas d'échec et fallback html si turbo inactif sur nav
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.update("new_message_container",
+          partial: "messages/form",
+          locals: { chat: @chat, message: @message }),
+          status: :unprocessable_content
+        end
+        format.html do
+          @messages = @chat.messages.order(created_at: :asc).includes(:masterplan)
+          render "chats/show", status: :unprocessable_content
+        end
+      end
     end
   end
 
