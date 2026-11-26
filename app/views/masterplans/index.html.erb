@@ -1,19 +1,26 @@
 
 <section class="masterplans-page">
   <div class="masterplans-shell">
-    <header class="masterplans-heading">
-      <h1>Mes plans pour rencontrer un riche</h1>
-      <p>Chaque histoire de succès commence par la rencontre d'un riche.</p>
-    </header>
+    <%# Hero : titre, puis le coach qui flambe ses billets à côté du gros cœur %>
+    <div class="masterplans-hero">
+      <header class="masterplans-heading">
+        <h1>Mes plans pour rencontrer un riche</h1>
+        <p>Chaque histoire de succès commence par la rencontre d'un riche.</p>
+      </header>
+
+      <div class="masterplans-finale">
+        <%= image_tag "love-coach-flex-money.png", alt: "", class: "masterplans-coach", aria: { hidden: true } %>
+        <%= button_to (@masterplans.empty? ? "Définir une cible" : "Nouvelle séduction !"), chats_path,
+            class: "masterplans-cta",
+            form: { class: "masterplans-cta-form" } %>
+      </div>
+    </div>
 
     <% if @masterplans.empty? %>
       <section class="masterplans-empty">
         <h2>Tu es tout seul ?</h2>
         <p>Ta vie sentimentale ne va pas se faire toute seule.</p>
 
-        <%= button_to "Définir une cible", chats_path,
-            class: "masterplans-cta",
-            form: { class: "masterplans-cta-form" } %>
       </section>
 
     <% else %>
@@ -45,19 +52,24 @@
                 <%= progress %> % terminé
               </span>
             </div>
+            <div class="masterplan-actions">
+              <%= button_to "Découvrir mon destin",
+                  masterplan_path(masterplan),
+                  method: :get,
+                  class: "masterplan-action-button" %>
 
-            <%= link_to "Découvrir mon destin",
-                masterplan_path(masterplan),
-                class: "masterplan-link" %>
+              <%= button_to "Supprimer",
+                  masterplan_path(masterplan),
+                  method: :delete,
+                  class: "masterplan-action-button",
+                  data: { turbo_confirm: "Tu veux vraiment supprimer ce plan et toutes ses tâches ?" } %>
+              </div>
 
           </article>
         <% end %>
 
       </section>
 
-      <%= button_to "Nouvelle séduction !", chats_path,
-          class: "masterplans-cta",
-          form: { class: "masterplans-cta-form" } %>
 
     <% end %>
   </div>

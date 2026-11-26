@@ -1,0 +1,179 @@
+// ---------- Page d'un chat (chats/show) ----------
+
+// Taille du coach, réutilisée pour placer la colonne du chat à sa droite.
+// Image 590 × 1122 px → largeur = hauteur × 590 / 1122
+// Le coach + la colonne forment un bloc centré dans l'écran :
+//   --chat-col-w   : largeur max de la colonne du chat
+//   --chat-group-w : largeur du bloc (coach dont 85 % dépasse à gauche + colonne)
+//   --chat-left    : marge à gauche du bloc pour le centrer (jamais négative)
+:root {
+  --chat-coach-h: 85vh;
+  --chat-coach-w: calc(var(--chat-coach-h) * 590 / 1122);
+  --chat-col-w: 900px;
+  --chat-group-w: calc(var(--chat-coach-w) * 0.85 + var(--chat-col-w));
+  --chat-left: #{"max(0px, (100vw - var(--chat-group-w)) / 2)"};
+}
+
+// Colonne du chat, à droite du coach
+.chat-page {
+  position: relative;
+  z-index: 1; // devant le coach
+  max-width: var(--chat-col-w);
+  margin-left: calc(var(--chat-left) + var(--chat-coach-w) * 0.85); // à droite du coach
+  margin-right: auto;
+  padding: 2rem 1.25rem 3rem;
+
+  h1 {
+    color: #d6336c;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+}
+
+// ---------- Messages ----------
+// Plus grands que le style de base (components/_message.scss)
+.chat-page .message__bubble {
+  max-width: 85%;
+  padding: 16px 22px;
+  font-size: 1.35rem;
+  line-height: 1.45;
+}
+
+// Messages du LLM : bulles de BD dont la pointe part vers la gauche, vers la bouche du coach
+// (la carte "masterplan prêt" garde son propre style)
+$bubble-ink: #3a2a3f;
+
+.chat-page .message--assistant .message__bubble:not(.message__bubble--masterplan) {
+  position: relative;
+  margin-left: 26px; // place pour la pointe
+  border: 3px solid $bubble-ink;
+  border-radius: 1.6em;
+  background: white;
+  color: $bubble-ink;
+  box-shadow: 5px 5px 0 $bubble-ink; // ombre "BD" pleine
+  animation: chat-bubble-pop 400ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  transform-origin: top left;
+
+  // Pointe : un triangle foncé (contour) + un triangle blanc par-dessus.
+  // Placée en haut et inclinée vers le haut, vers la bouche du coach.
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border-style: solid;
+  }
+
+  &::before {
+    left: -30px;
+    top: 16px;
+    border-width: 12px 30px 12px 0;
+    border-color: transparent $bubble-ink transparent transparent;
+    transform: rotate(20deg);
+    transform-origin: right center;
+  }
+
+  &::after {
+    left: -22px;
+    top: 19px;
+    border-width: 8px 23px 8px 0;
+    border-color: transparent white transparent transparent;
+    transform: rotate(20deg);
+    transform-origin: right center;
+  }
+}
+
+@keyframes chat-bubble-pop {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+// Formulaire d'envoi : champ de texte et bouton côte à côte
+// (.simple_form .btn met width: 100% dans pages/_connection.scss, on l'annule ici)
+.message-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+
+  // le wrapper simple_form du textarea prend la place restante
+  .mb-3 {
+    flex: 1;
+    margin-bottom: 15px !important; // aligné avec le bas du bouton (hors socle)
+  }
+
+  textarea {
+    border-radius: 16px;
+    font-size: 1.1rem;
+    resize: vertical;
+  }
+
+  .btn {
+    width: auto;
+    flex: none;
+    font-size: 1.1rem;
+  }
+}
+
+// ---------- Le coach bras croisés ----------
+// Fixé en bas à gauche de l'écran, derrière les messages et le formulaire.
+.chat-coach {
+  position: fixed;
+  left: var(--chat-left); // début du bloc centré
+  bottom: 0;
+  z-index: 0;              // derrière .chat-page (1), devant les billets (-1)
+  height: var(--chat-coach-h);
+  width: auto;
+  max-width: none;
+  pointer-events: none;    // ne bloque pas les clics
+  filter: drop-shadow(0 10px 30px rgba(58, 42, 63, 0.25));
+  animation: chat-coach-in 700ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes chat-coach-in {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+// Écrans étroits : pas la place pour le coach à côté du chat.
+// Il rapetisse et passe derrière, la colonne reprend toute la largeur.
+@media (max-width: 900px) {
+  :root {
+    --chat-coach-h: 55vh;
+  }
+
+  :root {
+    --chat-left: 0px; // coach collé à gauche, derrière le chat
+  }
+
+  .chat-page {
+    margin-left: auto;
+  }
+}
+
+// Téléphones : le bouton passe sous le champ, à droite
+@media (max-width: 576px) {
+  .chat-page .message__bubble {
+    max-width: 90%;
+    font-size: 1.05rem;
+  }
+
+  .message-form {
+    flex-direction: column;
+    align-items: stretch;
+
+    .mb-3 {
+      margin-bottom: 0.5rem !important;
+    }
+
+    .btn {
+      align-self: flex-end;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-coach,
+  .chat-page .message--assistant .message__bubble {
+    animation: none;
+  }
+}

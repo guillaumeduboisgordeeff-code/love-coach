@@ -11,10 +11,6 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent"> <!-- Contenu repliable de la navbar -->
       <ul class="navbar-nav me-auto"> <!-- Liste des liens de navigation -->
         <% if user_signed_in? %> <!-- Vérifie si l’utilisateur est connecté -->
-          <li class="nav-item"> <!-- Élément du menu Get Rich -->
-            <%= link_to "Rencontrer un riche", chats_path, data: { turbo_method: :post }, class: "nav-link" %> <!-- Lien temporaire : remplace # par la route Get Rich -->
-          </li> <!-- Fin de l’élément Get Rich -->
-
           <li class="nav-item"> <!-- Élément du menu Masterplans -->
             <%= link_to "Masterplans", masterplans_path, class: "nav-link" %> <!-- Lien vers les Masterplans -->
           </li> <!-- Fin de l’élément Masterplans -->

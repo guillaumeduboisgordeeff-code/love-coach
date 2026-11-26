@@ -1,8 +1,17 @@
 // ---------- Home page ----------
 .home-hero {
-  --radius: #{"min(42vw, 52vh)"};
-  --face: #{"clamp(200px, 15vmin, 310px)"};
+  // Tout est calculé à partir de la taille de l'écran (vw / vh / vmin)
+  --radius: #{"min(44vw, 48vh)"};             // rayon de l'arche
+  --face: #{"clamp(80px, 22vmin, 260px)"};    // taille d'un portrait
+  --heart: #{"clamp(170px, 40vmin, 360px)"};  // largeur du cœur
+  --arch-bottom: 0px; // hauteur du centre de l'arche au-dessus du bas de l'écran
   --spin: 30s;
+
+  // Écrans en hauteur (téléphones, tablettes) : on remonte l'arche
+  // pour ne pas laisser un grand vide au milieu de l'écran
+  @media (orientation: portrait) {
+    --arch-bottom: 26vh;
+  }
 
   position: relative;
   height: 100vh; // plein écran : la navbar flotte par-dessus
@@ -11,25 +20,30 @@
 }
 
 // ---------- Titre au-dessus de l'arche ----------
-// Bloc titre + logo, posé au-dessus de l'arche
-// (ancré par le bas : le logo prend la place de l'ancien titre, le titre remonte)
+// Bloc titre + logo, calé entre le bas de la navbar et le haut de l'arche.
+// Sur les écrans peu hauts, le logo rétrécit pour tenir dans la place restante.
 .home-heading {
   position: absolute;
   left: 50%;
-  bottom: calc(var(--radius) + var(--face) * 0.8);
+  top: var(--navbar-height);
+  bottom: calc(var(--arch-bottom) + var(--radius) + var(--face) * 0.5 + 0.5rem);
   transform: translateX(-50%);
   width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   z-index: 0; // derrière le coach (1) et l'arche (2), devant les billets (-1)
 }
 
 .home-logo {
-  height: clamp(70px, 18vh, 180px);
+  flex: 0 1 auto;
+  min-height: 0;      // autorise le logo à rétrécir dans le flex
+  max-height: 180px;
   width: auto;
   max-width: 100%;
+  object-fit: contain;
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
 }
 
@@ -37,7 +51,7 @@
   margin: 0;
   text-align: center;
   font-weight: 800;
-  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-size: clamp(1.4rem, #{"min(6vw, 6vh)"}, 4.5rem);
   color: #d6336c;
   text-shadow: 0 4px 0 #ffc65a, 0 8px 20px rgba(0, 0, 0, 0.15);
   z-index: 2;
@@ -49,7 +63,7 @@
 .granny-arch {
   position: absolute;
   left: 50%;
-  bottom: 0;
+  bottom: var(--arch-bottom);
   width: 0;
   height: 0;
   z-index: 2;
@@ -74,7 +88,7 @@
   margin-left: calc(var(--face) / -2);
   margin-top: calc(var(--face) / -2);
   border-radius: 50%;
-  border: 4px solid #fff;
+  border: clamp(2px, 0.5vmin, 4px) solid #fff;
   box-shadow: 0 6px 18px rgba(214, 51, 108, 0.3);
   overflow: hidden;
   display: flex;
@@ -103,7 +117,7 @@
 .home-cta {
   position: absolute;
   left: 50%;
-  bottom: calc(var(--radius) * 0.18);
+  bottom: calc(var(--arch-bottom) + var(--radius) * 0.18);
   transform: translateX(-50%);
   width: unquote("min(90%, calc(var(--radius) * 1.5))");
   text-align: center;
@@ -113,6 +127,10 @@
 // Pas connecté : le bouton descend tout en bas pour ne pas cacher le visage du coach
 .home-cta--guest {
   bottom: 1.5rem;
+
+  .btn {
+    font-size: clamp(1rem, #{"min(2.2vw, 3vh)"}, 1.5rem);
+  }
 }
 
 // ---------- Le coach ----------
@@ -135,7 +153,7 @@
 // Connecté : en grand à gauche, penché vers l'intérieur de l'écran
 .coach--lean {
   left: 0;
-  height: 92vh;
+  height: #{"min(92vh, 75vw)"};
   z-index: 1; // derrière l'arche de vieilles (z-index: 2)
   transform-origin: bottom left;
   transform: translateX(-22%) rotate(14deg);
@@ -150,7 +168,7 @@
 // Pas connecté : au centre sous l'arche, seul le torse dépasse du bas de l'écran
 .coach--peek {
   left: 50%;
-  height: calc(var(--radius) * 1.25);
+  height: calc((var(--radius) + var(--arch-bottom)) * 1.25); // suit la taille de l'arche
   z-index: 3; // devant l'arche
   transform: translate(-50%, 35%); // cache le bas du corps (35 % de l'image) sous l'écran
   animation: coach-peek-up 800ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -174,7 +192,7 @@
   border-radius: 1.6em;
   background: white;
   color: #3a2a3f;
-  font-size: clamp(1rem, 1.8vw, 1.4rem);
+  font-size: clamp(0.85rem, #{"min(1.8vw, 2.6vh)"}, 1.4rem);
   font-weight: 800;
   line-height: 1.3;
   text-align: center;
@@ -214,14 +232,40 @@
   to   { opacity: 1; transform: scale(1); }
 }
 
-// Petits écrans : coach plus petit pour laisser voir l'arche et le bouton
-@media (max-width: 768px) {
-  .coach--lean {
-    height: 60vh;
+// Écrans étroits (téléphones) : la bulle passe au-dessus de la tête,
+// sinon elle sort de l'écran par la gauche
+@media (max-width: 600px) {
+  .speech-bubble {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: 100%;
+    translate: -50% -14px; // centrée au-dessus de la tête (indépendant de l'animation "transform")
+    padding: 0.6rem 0.9rem;
+    transform-origin: bottom center;
+
+    // Pointe vers le bas
+    &::before {
+      right: auto;
+      left: 50%;
+      bottom: -26px;
+      border-width: 26px 12px 0 12px;
+      border-color: #3a2a3f transparent transparent transparent;
+      transform: none;
+    }
+
+    &::after {
+      right: auto;
+      left: calc(50% + 4px);
+      bottom: -19px;
+      border-width: 20px 8px 0 8px;
+      border-color: white transparent transparent transparent;
+      transform: none;
+    }
   }
 
-  .speech-bubble {
-    padding: 0.7rem 1rem;
+  .home-cta--guest {
+    width: 90%;
   }
 }
 
@@ -235,12 +279,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 360px;
-  height: 310px;
-  padding: 0 60px 50px; // remonte le texte vers le centre du cœur
+  width: var(--heart);
+  aspect-ratio: 360 / 310;
+  // remonte le texte vers le centre du cœur (pas de % ici : un padding en % se calcule
+  // sur la largeur du parent .home-cta, pas sur celle du cœur)
+  padding: 0 calc(var(--heart) * 0.166) calc(var(--heart) * 0.14);
   color: white;
+  text-shadow: 0 2px 6px rgba(58, 0, 20, 0.55); // lisible sur la fourrure
   font-family: inherit;
-  font-size: 2rem;
+  font-size: calc(var(--heart) * 0.09); // 2rem quand le cœur fait 360px
   font-weight: 700;
   line-height: 1.2;
   text-align: center;
@@ -257,8 +304,11 @@
     inset: 0;
     z-index: -1;
     background: linear-gradient(135deg, #FF1744, #C40036, #FF4569);
-    // Coordonnées en px (360 × 310) : si tu changes la taille du bouton, il faut aussi les recalculer
-    clip-path: path("M 180 300 C 150 270 10 180 10 96 C 10 10 120 -10 180 70 C 240 -10 350 10 350 96 C 350 180 210 270 180 300 Z");
+    // Forme de cœur en masque SVG (viewBox 360 × 310) : contrairement à clip-path: path(),
+    // il s'étire avec le bouton, donc le cœur suit la taille de l'écran.
+    $heart-svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 310' preserveAspectRatio='none'><path d='M 180 300 C 150 270 10 180 10 96 C 10 10 120 -10 180 70 C 240 -10 350 10 350 96 C 350 180 210 270 180 300 Z'/></svg>";
+    -webkit-mask: url("data:image/svg+xml;utf8,#{$heart-svg}") center / 100% 100% no-repeat;
+            mask: url("data:image/svg+xml;utf8,#{$heart-svg}") center / 100% 100% no-repeat;
   }
 
   &:hover,

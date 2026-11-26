@@ -1,6 +1,13 @@
 <%# abonnement ActionCable : reçoit les messages broadcastés pour ce chat %>
 <%= turbo_stream_from @chat %>
 <div class="row">
+<%# coach-voice : sons quand le coach répond (controllers/coach_voice_controller.js) %>
+<div class="row chat-page"
+     data-controller="coach-voice"
+     data-coach-voice-talk-value="<%= audio_path("talk.mp3") %>"
+     data-coach-voice-talk-reverse-value="<%= audio_path("talkreverse.mp3") %>"
+     data-coach-voice-question-value="<%= audio_path("question.mp3") %>"
+     data-coach-voice-validation-value="<%= audio_path("validationrire.mp3") %>">
   <div class="col" data-controller="chat" data-action="turbo:submit-start->chat#showPending turbo:submit-end->chat#clearPending">
     <template data-chat-target="pending">
       <div class="message message--user" data-pending>
@@ -19,3 +26,6 @@
      </div>
   </div>
 </div>
+
+<%# Le coach, bras croisés, en bas au centre de l'écran (derrière le chat) %>
+<%= image_tag "love-coach-croise-bras.png", alt: "", class: "chat-coach", aria: { hidden: true } %>
