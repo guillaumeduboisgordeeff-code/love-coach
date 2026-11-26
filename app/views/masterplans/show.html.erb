@@ -1,2 +1,22 @@
-<h1>Masterplans#show</h1>
-<p>Find me in app/views/masterplans/show.html.erb</p>
+<h1 class="titre-masterplan"><%= @masterplan.woman_name %></h1> <%# Affiche le nom du masterplan avec son style dédié. %>
+
+<h2 class="sous-titre-masterplan">Mon plan de séduction</h2> <%# Affiche le titre de la liste avec son style dédié. %>
+
+<ul class="taches"> <%# Commence la liste des tâches. %>
+  <% @masterplan.tasks.each do |task| %> <%# Parcourt chaque tâche du masterplan. %>
+    <li class="tache"> <%# Commence la ligne de la tâche. %>
+      <%= form_with url: mark_as_done_task_path(task), method: :patch, class: "form-case-tache" do |form| %> <%# Crée un formulaire ciblable par le CSS. %>
+        <label class="case-a-cocher"> <%# Rend la case personnalisée cliquable avec son icône. %>
+          <%= form.check_box :done, { checked: task.done, onchange: "this.form.requestSubmit()" }, "true", "false" %> <%# Affiche la case et envoie le formulaire quand son état change. %>
+          <span class="case-visuelle"></span> <%# Laisse le SCSS afficher l’icône si la case est cochée. %>
+        </label> <%# Termine la case personnalisée. %>
+      <% end %> <%# Termine le formulaire. %>
+
+      <span class="<%= task.done? ? 'texte-tache terminee' : 'texte-tache' %>"> <%# Applique le style terminé uniquement si la tâche est faite. %>
+        <%= task.description %> <%# Affiche la description de la tâche. %>
+      </span> <%# Termine le texte de la tâche. %>
+    </li> <%# Termine la ligne de la tâche. %>
+  <% end %> <%# Termine le parcours des tâches. %>
+</ul> <%# Termine la liste des tâches. %>
+
+<%= link_to "⬅ MES MASTERPLANS", masterplans_path, class: "btn btn-get-rich" %> <%# Affiche le bouton de retour à la liste des masterplans. %>

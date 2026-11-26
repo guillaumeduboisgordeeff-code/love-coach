@@ -1,0 +1,75 @@
+.taches { // Cible la liste des tâches.
+  list-style: none; // Retire les puces.
+  padding-left: 0; // Retire l’indentation par défaut.
+} // Termine le style de la liste.
+
+.tache { // Cible chaque ligne de tâche.
+  display: flex; // Place le formulaire et le texte sur la même ligne.
+  align-items: center; // Aligne verticalement la case et le texte.
+  gap: 0.5rem; // Ajoute un espace entre la case et le texte.
+  margin-bottom: 0.75rem; // Espace légèrement les tâches entre elles.
+} // Termine le style de la tâche.
+
+.tache > form { // Cible le formulaire directement dans chaque tâche.
+  display: inline-flex; // Évite que le formulaire prenne toute la ligne.
+  align-items: center; // Aligne la case dans le formulaire.
+  margin: 0; // Retire les marges éventuelles du formulaire.
+} // Termine le style du formulaire.
+
+.case-a-cocher { // Cible le conteneur de la case personnalisée.
+  position: relative; // Permet de superposer la vraie case et son apparence.
+  display: inline-flex; // Aligne la case avec le texte.
+  align-items: center; // Centre la case verticalement.
+  margin-right: 0.5rem; // Ajoute un espace après la case.
+} // Termine le style du conteneur.
+
+.case-a-cocher input[type="checkbox"] { // Sélectionne la vraie case à cocher.
+  position: absolute; // Superpose la case à l’apparence personnalisée.
+  width: 1.5rem; // Définit sa largeur cliquable.
+  height: 1.5rem; // Définit sa hauteur cliquable.
+  margin: 0; // Supprime la marge par défaut.
+  opacity: 0; // Rend la vraie case invisible, mais cliquable.
+  cursor: pointer; // Indique que la case peut être cliquée.
+} // Termine le style de la vraie case.
+
+.case-visuelle { // Cible l’apparence personnalisée de la case.
+  display: inline-flex; // Permet de centrer l’icône.
+  width: 1.5rem; // Définit la largeur de la case.
+  height: 1.5rem; // Définit sa hauteur.
+  align-items: center; // Centre l’icône verticalement.
+  justify-content: center; // Centre l’icône horizontalement.
+  border: 2px solid #ff69b4; // Ajoute une bordure rose flashy.
+  border-radius: 4px; // Arrondit légèrement les coins.
+  font-size: 1rem; // Définit la taille de l’icône.
+} // Termine l’apparence de la case.
+
+.case-visuelle::before { // Affiche l’icône dans la case.
+  content: ""; // Ne montre rien quand la tâche n’est pas cochée.
+} // Termine le style de l’icône vide.
+
+.case-a-cocher input[type="checkbox"]:checked + .case-visuelle { // Cible la case cochée.
+  background-color: #ff69b4; // Remplit la case en rose flashy.
+} // Termine le style de la case cochée.
+
+.case-a-cocher input[type="checkbox"]:checked + .case-visuelle::before { // Cible l’icône quand la tâche est cochée.
+  content: "💸"; // Affiche le billet dans la case cochée.
+} // Termine le style de l’icône cochée.
+
+.texte-tache.terminee { // Cible le texte d’une tâche terminée.
+  color: #ff1493; // Affiche le texte en rose vif.
+  font-style: italic; // Met le texte en italique.
+} // Termine le style du texte terminé.
+
+.titre-masterplan { // Cible le titre principal.
+  color: #5a3921; // Utilise un brun discret.
+  font-family: Georgia, serif; // Donne un style classique au titre.
+  font-size: 2.2rem; // Agrandit le titre principal.
+  margin-bottom: 0.25rem; // Rapproche le sous-titre.
+} // Termine le style du titre principal.
+
+.sous-titre-masterplan { // Cible le sous-titre.
+  color: #8a6a4a; // Utilise un brun plus doux.
+  font-size: 1.2rem; // Garde le sous-titre moins imposant.
+  font-weight: 500; // Donne une épaisseur modérée au texte.
+  margin-top: 0; // Évite un grand espace au-dessus du sous-titre.
+} // Termine le style du sous-titre.
