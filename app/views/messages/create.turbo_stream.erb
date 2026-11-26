@@ -1,10 +1,7 @@
+<%# Les messages (user + coach) arrivent déjà en direct via le broadcast (Message#after_create_commit
+    et Message#broadcast_bubble) : ici on met seulement à jour le titre et on remet le formulaire à zéro %>
 <% if @chat.title_previously_changed? %>
   <%= turbo_stream.update "chat_title", @chat.title %>
-<% end %>
-
-<%= turbo_stream.append "messages" do %>
-  <%= render "chats/message", message: @message %>
-  <%= render "chats/message", message: @assistant_message %>
 <% end %>
 
 <%= turbo_stream.update "new_message_container" do %>

@@ -3,7 +3,7 @@ class Chat < ApplicationRecord
   has_many :messages, dependent: :destroy
   validates :title, presence: true
 
-  DEFAULT_TITLE = "Nouvelle cible"
+  DEFAULT_TITLE = "Pickons des sou(l)s"
   TITLE_PROMPT = <<~PROMPT
     Crée une courte description de 3 à 6 mots qui résume la question de l'utilisateur et fais en le titre de la conversation.
     Réponds uniquement par le titre, en texte brut : sans Markdown, sans #, sans guillemets, sans ponctuation finale.
@@ -19,7 +19,7 @@ class Chat < ApplicationRecord
     update(title: response.content.delete('"#*').strip)
   end
 
-  def rename_after_target(woman_name)
-    update!(title: "Opération #{woman_name}")
+  def rename_after_target(target_name)
+    update!(title: "Opération #{target_name}")
   end
 end

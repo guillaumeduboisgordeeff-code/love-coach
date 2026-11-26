@@ -30,6 +30,17 @@
   color: #212529;
 }
 
+// « … » affiché tant que le coach n'a pas commencé à streamer sa réponse
+.message__typing {
+  display: inline-block;
+  animation: message-typing 1s ease-in-out infinite;
+}
+
+@keyframes message-typing {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 1; }
+}
+
 // ---------------------------------------------------------------------------
 // Bulle "masterplan prêt" : la bulle elle-même devient une carte.
 // Couleurs reprises de la page masterplans (_masterplans.scss) pour que

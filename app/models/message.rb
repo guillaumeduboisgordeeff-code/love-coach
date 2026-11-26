@@ -1,5 +1,16 @@
 class Message < ApplicationRecord
   belongs_to :chat
   has_one :masterplan, dependent: :destroy
-  validates :content, presence: true
+  # la réponse du coach est créée vide puis remplie au fil du streaming
+  validates :content, presence: true, if: -> { role == "user" }
+
+  # chaque nouveau message (user ou coach) est ajouté en direct dans la page du chat
+  after_create_commit lambda {
+    broadcast_append_to chat, target: "messages", partial: "chats/message", locals: { message: self }
+  }
+
+  # remplace la bulle du message dans la page (appelé à chaque morceau reçu du LLM)
+  def broadcast_bubble
+    broadcast_replace_to chat, partial: "chats/message", locals: { message: self }
+  end
 end

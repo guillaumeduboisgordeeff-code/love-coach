@@ -1,7 +1,8 @@
 <%# On lit le masterplan une seule fois (préchargé par includes dans ChatsController#show) %>
 <% masterplan = message.masterplan %>
 
-<div class="message message--<%= message.role %>">
+<%# id = dom_id(message) : permet au broadcast de remplacer cette bulle pendant le streaming %>
+<div class="message message--<%= message.role %>" id="<%= dom_id(message) %>">
   <%# Une seule bulle : si le message a généré un masterplan, on lui ajoute le modificateur
       BEM --masterplan, qui la transforme en carte (voir _message.scss) %>
   <div class="message__bubble <%= "message__bubble--masterplan" if masterplan %>">
@@ -10,7 +11,7 @@
       <p class="message__masterplan-label">🎯 Masterplan prêt</p>
 
       <%# Niveau 2 : l'info principale, le nom de la cible %>
-      <p class="message__masterplan-target"><%= masterplan.woman_name %></p>
+      <p class="message__masterplan-target"><%= masterplan.target_name %></p>
 
       <%# Niveau 3 : accroche, avec le nombre réel de tâches créées %>
       <p class="message__masterplan-pitch">
@@ -19,6 +20,9 @@
 
       <%# Le bouton : une pilule dans le style des CTA de la page masterplans %>
       <%= link_to "Découvrir le plan →", masterplan_path(masterplan), class: "message__masterplan-cta" %>
+    <% elsif message.content.blank? %>
+      <%# Réponse du coach pas encore commencée (ou masterplan en cours de rédaction) %>
+      <span class="message__typing">…</span>
     <% else %>
       <%= sanitize(render_markdown(message.content)) %>
     <% end %>

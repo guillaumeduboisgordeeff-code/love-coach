@@ -7,8 +7,15 @@ export default class extends Controller {
   connect() {
     // on arrive en bas de la conversation
     this.scrollToBottom("instant")
-    // on redescend à chaque message ajouté ou retiré dans #messages
-    this.observer = new MutationObserver(() => this.scrollToBottom("smooth"))
+    // à chaque changement dans #messages (ajout, ou bulle remplacée pendant le streaming)
+    this.observer = new MutationObserver((mutations) => {
+      // un vrai message est arrivé par le broadcast : on retire les bulles temporaires
+      const realMessageAdded = mutations.some(m =>
+        [...m.addedNodes].some(node => node.nodeType === Node.ELEMENT_NODE && !node.hasAttribute("data-pending"))
+      )
+      if (realMessageAdded) this.removePending()
+      this.scrollToBottom("smooth")
+    })
     this.observer.observe(this.messagesTarget, { childList: true })
   }
 
@@ -35,14 +42,18 @@ export default class extends Controller {
   }
 
   clearPending() {
-    // on supprime les bulles temporaires
-    this.messagesTarget.querySelectorAll("[data-pending]").forEach(el => el.remove())
+    this.removePending()
     // champ encore bloqué = aucun stream n'est arrivé (erreur) : on rend la main
     if (this.inputTarget.disabled) {
       this.inputTarget.value = this.pendingText
       this.inputTarget.placeholder = this.originalPlaceholder
       this.inputTarget.disabled = false
     }
+  }
+
+  removePending() {
+    // on supprime les bulles temporaires
+    this.messagesTarget.querySelectorAll("[data-pending]").forEach(el => el.remove())
   }
 
   submitOnEnter(event) {
