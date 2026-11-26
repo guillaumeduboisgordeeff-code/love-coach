@@ -16,12 +16,21 @@ export default class extends Controller {
       if (realMessageAdded) this.removePending()
       this.scrollToBottom("smooth")
     })
-    this.observer.observe(this.messagesTarget, { childList: true })
+    this.observer.observe(this.messagesTarget, { childList: true, subtree: true } )
   }
 
   disconnect() {
     // on arrête la surveillance en quittant la page
     this.observer?.disconnect()
+  }
+
+  // Callback Stimulus « <nom>TargetConnected » : appelé automatiquement à chaque fois
+  // qu'un élément data-chat-target="input" apparaît dans la page.
+  // Après l'envoi, create.turbo_stream.erb remplace tout le formulaire par un neuf :
+  // l'ancien champ (qui avait le curseur) disparaît, le nouveau arrive sans focus.
+  // On remet donc le curseur dedans dès qu'il est inséré (et aussi au chargement de la page).
+  inputTargetConnected(input) {
+    input.focus()
   }
 
   showPending() {
@@ -48,6 +57,8 @@ export default class extends Controller {
       this.inputTarget.value = this.pendingText
       this.inputTarget.placeholder = this.originalPlaceholder
       this.inputTarget.disabled = false
+      // on remet le curseur dans le champ pour pouvoir renvoyer tout de suite
+      this.inputTarget.focus()
     }
   }
 

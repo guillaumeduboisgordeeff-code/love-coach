@@ -5,26 +5,7 @@
 <div class="message message--<%= message.role %>" id="<%= dom_id(message) %>">
   <%# Une seule bulle : si le message a généré un masterplan, on lui ajoute le modificateur
       BEM --masterplan, qui la transforme en carte (voir _message.scss) %>
-  <div class="message__bubble <%= "message__bubble--masterplan" if masterplan %>">
-    <% if masterplan %>
-      <%# Niveau 1 : petite étiquette qui annonce de quoi il s'agit %>
-      <p class="message__masterplan-label">🎯 Masterplan prêt</p>
-
-      <%# Niveau 2 : l'info principale, le nom de la cible %>
-      <p class="message__masterplan-target"><%= masterplan.target_name %></p>
-
-      <%# Niveau 3 : accroche, avec le nombre réel de tâches créées %>
-      <p class="message__masterplan-pitch">
-        <%= masterplan.tasks.size %> étapes pour décrocher le pactole
-      </p>
-
-      <%# Le bouton : une pilule dans le style des CTA de la page masterplans %>
-      <%= link_to "Découvrir le plan →", masterplan_path(masterplan), class: "message__masterplan-cta" %>
-    <% elsif message.content.blank? %>
-      <%# Réponse du coach pas encore commencée (ou masterplan en cours de rédaction) %>
-      <span class="message__typing">…</span>
-    <% else %>
-      <%= sanitize(render_markdown(message.content)) %>
-    <% end %>
+  <div class="message__bubble <%= "message__bubble--masterplan" if masterplan %>" id="<%= dom_id(message, :content) %>">
+      <%= render partial: "chats/message_content", locals: { message: message } %>
   </div>
 </div>

@@ -1,6 +1,5 @@
 <%# abonnement ActionCable : reçoit les messages broadcastés pour ce chat %>
 <%= turbo_stream_from @chat %>
-<div class="row">
 <%# coach-voice : sons quand le coach répond (controllers/coach_voice_controller.js) %>
 <div class="row chat-page"
      data-controller="coach-voice"
