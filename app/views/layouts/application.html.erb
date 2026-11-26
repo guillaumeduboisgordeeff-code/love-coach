@@ -25,10 +25,11 @@
 
   <body>
     <%= link_to "Skip to main content", "#main-content", class: "visually-hidden-focusable" %>
-  <header>
+  <%= render "shared/money_rain" %>
+  <header class="site-header">
     <%= render "shared/navbar" %> <!-- 👈 Add this for navbar -->
   </header>
-  <div class="container">
+  <div class="container-fluid px-0">
     <main id="main-content">
       <%= yield %>
     </main>
