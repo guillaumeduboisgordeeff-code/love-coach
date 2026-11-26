@@ -3,8 +3,14 @@ class MasterplansController < ApplicationController
     @masterplans = current_user.masterplans
   end
 
-  # app/controllers/masterplans_controller.rb
-  def show # Définit l'action qui affiche un masterplan
-    @masterplan = Masterplan.find(params[:id]) # Récupère le masterplan correspondant à l'identifiant de l'URL
+  def show
+    @masterplan = current_user.masterplans.find(params[:id])
+  end
+
+  def destroy
+    @masterplan = current_user.masterplans.find(params[:id])
+    @masterplan.destroy
+
+    redirect_to masterplans_path, notice: "Masterplan supprimé."
   end
 end

@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     resources :masterplans, only: [:create]
   end
 
-  resources :masterplans, only: [:index, :show]
+  resources :masterplans, only: [:index, :show, :destroy]
 
   resources :tasks, only: [] do
     member do
