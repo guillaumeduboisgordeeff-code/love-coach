@@ -3,7 +3,6 @@ class MessagesController < ApplicationController
   # - woman_name : la cible peut être un homme -> renommer en target_name ?
   # - Pas de colonne pour : titre du plan, fortune estimée, vanne finale
   # - title et venality_score des tâches sont mis dans description
-  # - messages.masterplan (boolean) masqué par has_one :masterplan -> supprimer ou renommer ?
   INSTRUCTIONS = <<~INSTRUCTIONS
     Tu es l’IA d’une appli de love coaching satirique et humoristique : le but est de choper quelqu’un de blindé de thunes.
     Ici, l’amour c’est du business et le romantisme sert à faire signer le chèque.
@@ -72,12 +71,32 @@ class MessagesController < ApplicationController
       # on pose la question au LLM
       response = llm_chat.ask(@message.content)
       # on enregistre la réponse dans la base messages du chat
-      @chat.messages.create!(role: "assistant", content: response.content)
-
-      redirect_to chat_path(@chat)
+      @assistant_message = @chat.messages.create!(role: "assistant", content: response.content)
+      # on crée le titre du message sur la base du premier message
+      @chat.generate_title_from_first_message
+      # on parse le JSON renvoyé par le LLM en dernier message
+      data = parse_masterplan(@assistant_message.content)
+      # on crée le masterplan
+      create_masterplan!(@assistant_message, data) if data
+      # affichage sans rechargement avec turbostream et fallback html si turbo inactif sur nav
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to chat_path(@chat) }
+      end
     else
-      @messages = @chat.messages.order(created_at: :asc)
-      render "chats/show", status: :unprocessable_content
+      # affichage turbo du formulaire en cas d'échec et fallback html si turbo inactif sur nav
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.update("new_message_container",
+          partial: "messages/form",
+          locals: { chat: @chat, message: @message }),
+          status: :unprocessable_content
+        end
+        format.html do
+          @messages = @chat.messages.order(created_at: :asc).includes(:masterplan)
+          render "chats/show", status: :unprocessable_content
+        end
+      end
     end
   end
 
@@ -85,5 +104,28 @@ class MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:content)
+  end
+
+  def parse_masterplan(content)
+    # parser le contenu
+    final_assistant_answer = JSON.parse(content)
+    final_assistant_answer.is_a?(Hash) && final_assistant_answer.key?("woman_name") && final_assistant_answer.key?("tasks") ? final_assistant_answer : nil
+    # renvoyer nil si le parsing echoue
+  rescue JSON::ParserError
+    nil
+  end
+
+  def create_masterplan!(message, data)
+    # transaction pour garantir que toutes les tâches sont transformées
+    ActiveRecord::Base.transaction do
+      # créer le masterplan
+      masterplan = current_user.masterplans.create!(message: message, woman_name: data["woman_name"])
+      # itérer sur les "tasks" du hash renvoyé pour créer les tasks
+      data["tasks"].each do |task|
+        masterplan.tasks.create!(description: task["description"])
+      end
+      # renommer le chat avec le nom du masterplan
+      @chat.rename_after_target(masterplan.woman_name)
+    end
   end
 end

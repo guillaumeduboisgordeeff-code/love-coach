@@ -29,3 +29,72 @@
   background: #f1f3f5;
   color: #212529;
 }
+
+// ---------------------------------------------------------------------------
+// Bulle "masterplan prêt" : la bulle elle-même devient une carte.
+// Couleurs reprises de la page masterplans (_masterplans.scss) pour que
+// la carte du chat donne un avant-goût de la page vers laquelle elle mène.
+// ---------------------------------------------------------------------------
+$masterplan-pink: #d6336c;   // rose principal de l'app (--story-pink)
+$masterplan-ink:  #3a2a3f;   // texte foncé (--story-ink)
+
+// Spécificité : `.message--assistant .message__bubble` (2 classes) définit déjà
+// un fond gris. On combine donc aussi 2 classes ici (.message__bubble ET son
+// modificateur), et comme cette règle vient APRÈS dans le fichier, elle gagne.
+.message__bubble.message__bubble--masterplan {
+  // Une carte, pas une bulle étirée. unquote() car SassC ne connaît pas la
+  // fonction CSS min() : on la lui passe telle quelle (même astuce que _masterplans.scss)
+  max-width: unquote("min(100%, 420px)");
+  padding: 18px 22px;
+  border-left: 4px solid $masterplan-pink; // accent comme .masterplan-entry
+  border-radius: 0 16px 16px 0;           // coins arrondis seulement côté droit
+  background: linear-gradient(155deg, #fff4d6 0%, #ffe0ea 100%); // dégradé de la page masterplans
+  color: $masterplan-ink;
+  box-shadow: 0 5px 16px rgba($masterplan-ink, 0.08);
+}
+
+// Niveau 1 : petite étiquette au-dessus du nom
+.message__masterplan-label {
+  margin: 0 0 4px;
+  color: $masterplan-pink;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+// Niveau 2 : le nom de la cible, l'info principale
+.message__masterplan-target {
+  margin: 0 0 4px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1.2;
+  overflow-wrap: anywhere;               // évite qu'un long nom déborde de la carte
+}
+
+// Niveau 3 : l'accroche, plus discrète
+.message__masterplan-pitch {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+// Le bouton : une pilule rose, comme les CTA de la page masterplans
+.message__masterplan-cta {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: 40px;
+  background: $masterplan-pink;
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 160ms ease, background 160ms ease;
+
+  // Au survol / focus clavier : léger soulèvement et rose plus foncé
+  &:hover,
+  &:focus {
+    color: white;
+    background: darken($masterplan-pink, 8%);
+    transform: translateY(-2px);
+  }
+}

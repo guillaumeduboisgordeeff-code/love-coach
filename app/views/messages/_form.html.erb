@@ -1,0 +1,15 @@
+<%= simple_form_for [chat, message], html: { class: "mt-4" } do |f| %>
+  <%= f.input :content,
+    as: :text,
+    label: false,
+    placeholder: "Écris ton message…",
+    input_html: {
+      rows: 3,
+      data: {
+        chat_target: "input",
+        action: "keydown.enter->chat#submitOnEnter" # Entrée envoie, Maj+Entrée va à la ligne
+      }
+    } %>
+  <%= f.button :submit, "Envoyer", class: "btn-primary",
+      data: { turbo_submits_with: "J'te cherche le pactole"} %>
+<% end %>
