@@ -1,3 +1,4 @@
+
 <section class="masterplans-page">
   <div class="masterplans-shell">
     <header class="masterplans-heading">
@@ -9,22 +10,55 @@
       <section class="masterplans-empty">
         <h2>Tu es tout seul ?</h2>
         <p>Ta vie sentimentale ne va pas se faire toute seule.</p>
-        <%= button_to "Définir une cible", chats_path, class: "masterplans-cta", form: { class: "masterplans-cta-form" } %>
+
+        <%= button_to "Définir une cible", chats_path,
+            class: "masterplans-cta",
+            form: { class: "masterplans-cta-form" } %>
       </section>
+
     <% else %>
-      <section class="masterplans-list" aria-label="Your adventures">
+      <section class="masterplans-list" aria-label="Mes aventures">
+
         <% @masterplans.each_with_index do |masterplan, index| %>
+          <% tasks = masterplan.tasks.to_a %>
+          <% completed_tasks = tasks.count(&:done?) %>
+          <% total_tasks = tasks.count %>
+          <% progress = total_tasks.zero? ? 0 : (completed_tasks.to_f / total_tasks * 100).round %>
+
           <article class="masterplan-entry">
-            <span class="masterplan-number" aria-hidden="true"><%= format("%02d", index + 1) %></span>
+
             <div class="masterplan-entry-copy">
               <h2><%= masterplan.woman_name %></h2>
+
+              <p>
+                <%= completed_tasks %> / <%= total_tasks %> tâches terminées
+              </p>
+
+              <div class="masterplan-progress">
+                <div
+                  class="masterplan-progress-bar"
+                  style="width: <%= progress %>%">
+                </div>
+              </div>
+
+              <span class="masterplan-percentage">
+                <%= progress %> % terminé
+              </span>
             </div>
-            <%= link_to "Voir l'avancement", masterplan_path(masterplan), class: "masterplan-link" %>
+
+            <%= link_to "Découvrir mon destin",
+                masterplan_path(masterplan),
+                class: "masterplan-link" %>
+
           </article>
         <% end %>
 
-        <%= button_to "Définir une nouvelle cible", chats_path, class: "masterplans-cta", form: { class: "masterplans-cta-form" } %>
       </section>
+
+      <%= button_to "Nouvelle séduction !", chats_path,
+          class: "masterplans-cta",
+          form: { class: "masterplans-cta-form" } %>
+
     <% end %>
   </div>
 </section>
