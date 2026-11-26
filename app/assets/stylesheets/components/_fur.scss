@@ -1,0 +1,76 @@
+// fur: wrapper and canvas chrome. the coat itself is painted in js
+// (app/javascript/lib/fur.js).
+
+.fur {
+  position: relative;
+  // the fringe pokes past the box on purpose
+  overflow: visible;
+  // vertical page scroll still works while horizontal strokes pet the fur
+  touch-action: pan-y;
+  transition: transform 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+// les boutons gardent leur display (inline-block, flex…), seuls les autres
+// éléments à fourrure passent en block
+.fur:not(.fur-button) {
+  display: block;
+}
+
+// a happy little lean-in when you reach for it
+.fur:hover {
+  transform: scale(1.015) rotate(-0.4deg);
+}
+
+.fur-canvas {
+  position: absolute;
+  pointer-events: none;
+}
+
+.fur-content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+// ---------- Boutons à fourrure (controllers/fur_buttons_controller.js) ----------
+// isolation crée un contexte d'empilement : le canvas (z-index -1) passe
+// au-dessus du fond du bouton mais derrière son texte.
+.fur-button {
+  isolation: isolate;
+
+  > .fur-canvas {
+    z-index: -1;
+  }
+}
+
+// ---------- Cœurs à fourrure : version flashy ----------
+// Le pelage est saturé et éclairci, et le cœur gagne un halo néon rose.
+.btn-heart,
+.masterplans-cta {
+  > .fur-canvas {
+    filter: saturate(1) brightness(1.05) contrast(1.08);
+  }
+}
+
+// Halo néon (remplace l'ombre portée d'origine ; s'intensifie au survol)
+.btn-heart.fur-button,
+.masterplans-cta-form button.masterplans-cta.fur-button {
+  filter:
+    drop-shadow(0 0 10px rgba(255, 40, 140, 0.75))
+    drop-shadow(0 0 28px rgba(255, 0, 120, 0.45));
+
+  &:hover {
+    filter:
+      drop-shadow(0 0 14px rgba(255, 60, 160, 0.95))
+      drop-shadow(0 0 40px rgba(255, 0, 130, 0.7));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fur {
+    transition: none;
+  }
+  .fur:hover {
+    transform: none;
+  }
+}

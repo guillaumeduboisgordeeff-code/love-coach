@@ -205,56 +205,147 @@
   margin: 4rem auto 2rem;
 }
 
-.masterplans-cta {
+// Bouton cœur "Nouvelle séduction !"
+// - Le cœur (dégradé + clip-path) est dessiné sur ::before : un clip-path posé sur
+//   le bouton lui-même couperait aussi la fourrure qui dépasse (et le drop-shadow).
+// - Sélecteur renforcé (form + button) pour passer devant le style 3D global des
+//   boutons (components/_button.scss : button:not(...)).
+// - La fourrure est ajoutée en JS (controllers/fur_buttons_controller.js).
+.masterplans-cta-form button.masterplans-cta {
+  --mp-heart: #{"clamp(260px, 36vmin, 440px)"}; // largeur du cœur, suit la taille de l'écran
   position: relative;
-  width: 180px;
-  height: 155px;
-  padding: 0 15px 15px;
+  isolation: isolate; // ::before et fourrure (z-index: -1) restent derrière le texte
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--mp-heart);
+  height: auto;
+  aspect-ratio: 180 / 155;
+  margin: 0;
+  // remonte le texte vers le centre du cœur (calc, pas % : un padding en %
+  // se calcule sur le parent)
+  padding: 0 calc(var(--mp-heart) * 0.15) calc(var(--mp-heart) * 0.14);
   border: none;
-
-  background: linear-gradient(135deg, #ff1744, #c40036, #ff4569);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
   color: white;
-
-  font-size: 1rem;
-  font-weight: 800;
-  text-align: center;
-
   font-family: inherit;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: calc(var(--mp-heart) * 0.085);
+  font-weight: 800;
+  line-height: 1.15;
   letter-spacing: inherit;
-
+  text-shadow: 0 2px 6px rgba(58, 0, 20, 0.55); // lisible sur la fourrure
   cursor: pointer;
   filter: drop-shadow(0 8px 12px rgba(220, 0, 60, 0.3));
-
-  clip-path: path("M 90 150 C 75 135 5 90 5 48 C 5 5 60 -5 90 35 C 120 -5 175 5 175 48 C 175 90 105 135 90 150 Z");
-
-  animation: heart-pulse 1.4s infinite ease-in-out;
+  animation: masterplans-heart-pulse 1.4s infinite ease-in-out;
   transition: filter 250ms ease;
   transform-origin: center;
 
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(135deg, #ff1744, #c40036, #ff4569);
+    // Cœur en masque SVG (viewBox 180 × 155) : il s'étire avec le bouton,
+    // contrairement à clip-path: path() qui est en pixels fixes
+    $mp-heart-svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 155' preserveAspectRatio='none'><path d='M 90 150 C 75 135 5 90 5 48 C 5 5 60 -5 90 35 C 120 -5 175 5 175 48 C 175 90 105 135 90 150 Z'/></svg>";
+    -webkit-mask: url("data:image/svg+xml;utf8,#{$mp-heart-svg}") center / 100% 100% no-repeat;
+            mask: url("data:image/svg+xml;utf8,#{$mp-heart-svg}") center / 100% 100% no-repeat;
+  }
+
+  // annule les états du bouton 3D global (fond, ombres, enfoncement)
+  &:hover,
+  &:focus,
+  &:active {
+    background: transparent;
+    box-shadow: none;
+    color: white;
+  }
+
   &:hover {
     filter: drop-shadow(0 20px 40px rgba(255, 0, 65, 0.9));
-    animation: heart-pulse-intense 0.4s infinite ease-in-out;
+    animation: masterplans-heart-pulse-intense 0.4s infinite ease-in-out;
     z-index: 5;
-    transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1), filter 350ms ease;
   }
-  justify-self: start;
-  margin-top: 0.5rem;
 }
 
-@keyframes heart-pulse {
+// Noms propres à cette page : avec les mêmes noms que sur la home (heart-pulse…),
+// ces keyframes écrasaient celles du cœur de la home (fichier importé après).
+@keyframes masterplans-heart-pulse {
   0%, 100% { transform: scale(1); }
   15% { transform: scale(1.08); }
   30% { transform: scale(1); }
   45% { transform: scale(1.05); }
 }
 
-@keyframes heart-pulse-intense {
-  0%, 100% { transform: scale(1.5); }
-  25% { transform: scale(1.8); }
-  50% { transform: scale(1.5); }
-  75% { transform: scale(1.9); }
+// Réduit (avant : ×1,5 à ×1,9) : le cœur est maintenant gros, il débordait de l'écran
+@keyframes masterplans-heart-pulse-intense {
+  0%, 100% { transform: scale(1.06); }
+  25% { transform: scale(1.14); }
+  50% { transform: scale(1.06); }
+  75% { transform: scale(1.16); }
+}
+
+// ---------- Le coach qui flambe ses billets, à côté du cœur ----------
+// Hero de la page : titre au-dessus, coach + gros cœur en dessous
+.masterplans-hero {
+  margin-bottom: 3rem;
+
+  .masterplans-heading {
+    margin-bottom: 0;
+  }
+}
+
+.masterplans-finale {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 5vw, 4rem);
+  margin: 1rem auto 0;
+
+  // le cœur n'est plus centré seul sur toute la largeur
+  .masterplans-cta-form {
+    width: auto;
+    margin: 0;
+  }
+}
+
+.masterplans-coach {
+  height: clamp(360px, 68vh, 720px);
+  width: auto;
+  max-width: 100%;
+  filter: drop-shadow(0 12px 30px rgba(58, 42, 63, 0.3));
+  transform-origin: bottom center;
+  animation: masterplans-coach-flex 2.4s ease-in-out infinite;
+}
+
+// petit balancement fier, comme s'il agitait ses billets
+@keyframes masterplans-coach-flex {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-2deg) translateY(-4px); }
+  50%      { transform: rotate(0deg); }
+  75%      { transform: rotate(2deg) translateY(-4px); }
+}
+
+// Téléphones : le coach au-dessus du cœur
+@media (max-width: 600px) {
+  .masterplans-finale {
+    flex-direction: column;
+  }
+
+  .masterplans-coach {
+    height: 55vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .masterplans-coach {
+    animation: none;
+  }
 }
 
 .masterplans-list > .masterplans-cta-form {
