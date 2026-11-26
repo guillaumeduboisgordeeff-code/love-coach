@@ -52,10 +52,18 @@
                 <%= progress %> % terminé
               </span>
             </div>
+            <div class="masterplan-actions">
+              <%= button_to "Découvrir mon destin",
+                  masterplan_path(masterplan),
+                  method: :get,
+                  class: "masterplan-action-button" %>
 
-            <%= link_to "Découvrir mon destin",
-                masterplan_path(masterplan),
-                class: "masterplan-link" %>
+              <%= button_to "Supprimer",
+                  masterplan_path(masterplan),
+                  method: :delete,
+                  class: "masterplan-action-button",
+                  data: { turbo_confirm: "Tu veux vraiment supprimer ce plan et toutes ses tâches ?" } %>
+              </div>
 
           </article>
         <% end %>
