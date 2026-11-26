@@ -1,3 +1,5 @@
+<%# abonnement ActionCable : reçoit les messages broadcastés pour ce chat %>
+<%= turbo_stream_from @chat %>
 <div class="row">
   <div class="col" data-controller="chat" data-action="turbo:submit-start->chat#showPending turbo:submit-end->chat#clearPending">
     <template data-chat-target="pending">
