@@ -1,0 +1,40 @@
+// ---------- Fond de tout le site ----------
+// Dégradé de la home + pluie de billets (partial shared/_money_rain, rendu dans le layout).
+
+body {
+  min-height: 100vh;
+  // "fixed" : le dégradé reste calé sur l'écran, même sur les pages longues
+  background: radial-gradient(circle at 50% 100%, #fff4d6 0%, #ffe0ea 45%, #f6d9ff 100%) fixed;
+}
+
+// ---------- Pluie de billets ----------
+.money-rain {
+  position: fixed;   // reste à l'écran quand on scrolle
+  inset: 0;
+  z-index: -1;       // derrière tout le contenu des pages
+  overflow: hidden;  // les billets qui sortent de l'écran ne créent pas de scroll
+  pointer-events: none;
+}
+
+.money-bill {
+  position: absolute;
+  top: -10%;
+  animation-name: money-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@keyframes money-fall {
+  0%   { transform: translate(0, 0) rotate(-15deg); }
+  25%  { transform: translate(var(--sway), 30vh) rotate(15deg); }
+  50%  { transform: translate(0, 60vh) rotate(-15deg); }
+  75%  { transform: translate(calc(var(--sway) * -1), 90vh) rotate(15deg); }
+  100% { transform: translate(0, 120vh) rotate(-15deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .money-bill {
+    animation: none;
+  }
+}

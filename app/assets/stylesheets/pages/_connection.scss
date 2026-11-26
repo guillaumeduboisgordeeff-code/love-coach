@@ -1,16 +1,5 @@
 // ---------- Pages de connexion et d'inscription ----------
 
-body:has(form[action*="/users/sign_in"]),
-body:has(form[action="/users"]) {
-  background: radial-gradient(
-    circle at 50% 0%,
-    #fff4d6 0%,
-    #ffe0ea 45%,
-    #f6d9ff 100%
-  );
-  min-height: 100vh;
-}
-
 // Titres
 body:has(form[action*="/users/sign_in"]) h2,
 body:has(form[action="/users"]) h2 {
@@ -67,20 +56,6 @@ body:has(form[action="/users"]) .simple_form {
 
 .simple_form .btn {
   width: 100%;
-  padding: 13px 20px;
-  border: none;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #d6336c, #f17ca6);
-  color: white;
-  font-size: 1rem;
-  font-weight: 800;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  &:hover {
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 9px 22px rgba(214, 51, 108, 0.3);
-  }
 }
 
 body:has(form[action*="/users/sign_in"]) .simple_form ~ p,
@@ -105,16 +80,6 @@ body:has(form[action="/users"]) .simple_form ~ p {
     margin: 0 18px;
     padding: 25px 20px;
   }
-}
-
-body:has(form[action*="/users/password"]) {
-  background: radial-gradient(
-    circle at 50% 0%,
-    #fff4d6 0%,
-    #ffe0ea 45%,
-    #f6d9ff 100%
-  );
-  min-height: 100vh;
 }
 
 body:has(form[action*="/users/password"]) h2 {
@@ -148,9 +113,6 @@ body:has(form[action*="/users/password"]) .simple_form {
   width: auto;
   min-width: 220px;
   max-width: 100%;
-  min-height: 50px;
-  padding: 13px 30px;
-  text-align: center;
   white-space: normal;
   line-height: 1.4;
 }
@@ -174,22 +136,7 @@ body:has(form[action*="/users/password"]) {
       width: auto;
       min-width: 240px;
       max-width: 100%;
-      min-height: 50px;
-      padding: 13px 30px;
-      color: white !important;
-      background: linear-gradient(135deg, #d6336c, #f17ca6) !important;
-      border: none !important;
-      border-radius: 999px;
-      font-weight: 800;
-      text-align: center;
       white-space: normal;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-      &:hover {
-        color: white !important;
-        transform: translateY(-3px);
-        box-shadow: 0 9px 22px rgba(214, 51, 108, 0.3);
-      }
     }
   }
 
@@ -209,90 +156,6 @@ body:has(form[action*="/users/password"]) {
   }
 }
 
-
-// Pluie de billets 💸 sur les pages de connexion
-
-
-body:has(.simple_form) {
-  position: relative;
-  overflow-x: hidden;
-
-  &::before,
-  &::after {
-    position: fixed;
-    z-index: 0;
-    pointer-events: none;
-    font-size: clamp(45px, 5vw, 65px);
-    opacity: 0;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-  }
-
-  &::before {
-    content: "💸";
-    left: 8%;
-    top: -80px;
-    animation: money-fall 17s infinite;
-  }
-
-  &::after {
-    content: "💰";
-    left: 25%;
-    top: -80px;
-    animation: money-fall 21s infinite;
-    animation-delay: -8s;
-  }
-}
-
-// Les 6 autres billets
-body:has(.simple_form) .simple_form {
-  &::before,
-  &::after {
-    position: fixed;
-    z-index: 0;
-    pointer-events: none;
-    font-size: clamp(45px, 5vw, 65px);
-    opacity: 0;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-  }
-
-  &::before {
-    content: "💵";
-    left: 43%;
-    top: -80px;
-    animation: money-fall 19s infinite;
-    animation-delay: -5s;
-  }
-
-  &::after {
-    content: "💸";
-    left: 60%;
-    top: -80px;
-    animation: money-fall 23s infinite;
-    animation-delay: -13s;
-  }
-}
-
-@keyframes money-fall {
-  0% {
-    opacity: 0;
-    transform: translateY(0);
-  }
-
-  15% {
-    opacity: 0.7;
-  }
-
-  85% {
-    opacity: 0.7;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(110vh);
-  }
-}
 
 body:has(.simple_form) {
   .simple_form {

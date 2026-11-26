@@ -1,0 +1,61 @@
+// Bouton 3D orange appliqué à tous les boutons du site.
+// - .btn               : liens/boutons Bootstrap + submits simple_form
+// - button             : boutons générés par button_to
+// - input[type=submit] : submits sans classe
+// On exclut la croix des alertes et le burger de la navbar.
+
+$btn-orange:        #ff2b9c;
+$btn-orange-active: #b20044;
+$btn-highlight:     #FFE5C4;
+$btn-side:          #740091; // tranche du bouton
+$btn-base:          #2b0009; // socle sombre sous le bouton
+
+.btn:not(.btn-close),
+button:not(.navbar-toggler):not(.btn-close),
+input[type="submit"],
+.navbar-lewagon .nav-link {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px; // laisse la place au socle sous le bouton
+  padding: 0.55em 1.1em;
+  border: none;
+  border-radius: 5px;
+  background-color: $btn-orange;
+  color: white;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #000;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  // 1. reflet clair en haut  2. tranche orange foncé  3. socle sombre (remplace le :after)
+  box-shadow:
+    inset 0 1px 0 $btn-highlight,
+    0 10px 0 $btn-side,
+    0 11px 0 4px $btn-base;
+
+  &:hover,
+  &:focus {
+    background-color: $btn-orange;
+    color: white;
+  }
+
+  &:focus-visible {
+    outline: 3px solid $btn-highlight;
+    outline-offset: 6px;
+  }
+
+  // Le bouton s'enfonce de 10px, le socle reste en place
+  &:active {
+    transform: translateY(10px);
+    background-color: $btn-orange-active;
+    color: white;
+    box-shadow:
+      inset 0 1px 0 $btn-highlight,
+      inset 0 -3px 0 $btn-side,
+      0 1px 0 4px $btn-base;
+  }
+}

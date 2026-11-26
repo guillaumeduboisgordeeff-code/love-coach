@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-sm navbar-light navbar-lewagon"> <!-- Barre de navigation -->
   <div class="container-fluid"> <!-- Conteneur de la navbar -->
     <%= link_to root_path, class: "navbar-brand" do %> <!-- Le logo renvoie vers l’accueil -->
-      <%= image_tag "logo.png", alt: "Love Coach" %> <!-- Image du logo -->
+      <%= image_tag "love-coach-logo.png", alt: "Love Coach" %> <!-- Image du logo -->
     <% end %> <!-- Fin du lien du logo -->
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Ouvrir le menu"> <!-- Bouton du menu sur petit écran -->
@@ -19,9 +19,9 @@
             <%= link_to "Masterplans", masterplans_path, class: "nav-link" %> <!-- Lien vers les Masterplans -->
           </li> <!-- Fin de l’élément Masterplans -->
 
-          <li class="nav-item dropdown"> <!-- Menu déroulant du profil -->
-            <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <!-- Bouton du menu profil -->
-              <%= image_tag "avatar.png", class: "avatar", alt: "Menu utilisateur" %> <!-- Image de l’utilisateur -->
+          <li class="nav-item dropdown profil"> <!-- Menu déroulant du profil -->
+            <a href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <!-- Bouton du menu profil -->
+              <%= image_tag "user1.jpg", class: "avatar", alt: "Menu utilisateur" %> <!-- Image de l’utilisateur -->
             </a> <!-- Fin du bouton du menu profil -->
 
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"> <!-- Options du menu profil -->
