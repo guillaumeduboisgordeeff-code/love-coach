@@ -124,6 +124,8 @@ class MessagesController < ApplicationController
       data["tasks"].each do |task|
         masterplan.tasks.create!(description: task["description"])
       end
+      # renommer le chat avec le nom du masterplan
+      @chat.rename_after_target(masterplan.woman_name)
     end
   end
 end

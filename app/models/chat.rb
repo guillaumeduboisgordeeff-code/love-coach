@@ -16,6 +16,10 @@ class Chat < ApplicationRecord
     return if first_user_message.nil?
 
     response = RubyLLM.chat.with_instructions(TITLE_PROMPT).ask(first_user_message.content)
-    update(title: response.content.delete('"#*').delete)
+    update(title: response.content.delete('"#*').strip)
+  end
+
+  def rename_after_target(woman_name)
+    update!(title: "Opération #{woman_name}")
   end
 end
