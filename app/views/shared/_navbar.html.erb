@@ -10,6 +10,9 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent"> <!-- Contenu repliable de la navbar -->
       <ul class="navbar-nav me-auto"> <!-- Liste des liens de navigation -->
+        <li class="nav-item">
+          <%= link_to "Nos Souls", anciens_souls_path, class: "nav-link" %>
+        </li>
         <% if user_signed_in? %> <!-- Vérifie si l’utilisateur est connecté -->
           <li class="nav-item"> <!-- Élément du menu Masterplans -->
             <%= link_to "Masterplans", masterplans_path, class: "nav-link" %> <!-- Lien vers les Masterplans -->

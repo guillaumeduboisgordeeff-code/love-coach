@@ -1,0 +1,54 @@
+<section class="anciens-souls-page">
+
+  <div class="anciens-souls-heading">
+    <h2 class="trust-title">
+      <svg viewBox="0 0 600 130" role="img" aria-label="Ils nous ont fait confiance">
+        <defs>
+          <path id="anciens-souls-curve" d="M 30 105 Q 300 -5 570 105" />
+          <linearGradient id="anciens-souls-shine" x1="-100%" y1="0%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#d6336c" />
+            <stop offset="45%" stop-color="#d6336c" />
+            <stop offset="50%" stop-color="#ffffff" />
+            <stop offset="55%" stop-color="#d6336c" />
+            <stop offset="100%" stop-color="#d6336c" />
+            <animate attributeName="x1" from="-100%" to="100%" dur="3s" repeatCount="indefinite" />
+            <animate attributeName="x2" from="0%" to="200%" dur="3s" repeatCount="indefinite" />
+          </linearGradient>
+        </defs>
+        <text>
+          <textPath href="#anciens-souls-curve" startOffset="50%" text-anchor="middle">
+            Ils nous ont fait confiance
+          </textPath>
+        </text>
+      </svg>
+    </h2>
+  </div>
+
+  <% souls = [
+    ["helene.jpg", "Helene M.", "« Je suis venue pour trouver l'amour. Je suis repartie avec une facture de restaurant. »"],
+    ["jayz.jpg", "Jay Z", "« Elle m'a dit que j'étais son type. Je crois qu'elle parlait de mon groupe sanguin. »"],
+    ["jean.jpg", "Jean L.", "« Trois rendez-vous, deux ghostings et un abonnement premium. Une expérience complète. »"],
+    ["jordan.jpg", "Jordan B.", "« J'ai appris que l'amour est aveugle. Mon banquier, lui, voit très bien. »"],
+    ["nicolas.jpg", "Nicolas S.", "« Le coach avait promis une belle rencontre. J'ai surtout rencontré mes limites. »"],
+    ["salma.jpg", "Salma H.", "« Je cherchais une âme sœur. J'ai trouvé quelqu'un qui partage mon code promo. »"]
+  ] %>
+
+  <div class="souls-reviews-grid">
+    <% souls.each do |photo, name, review| %>
+      <article class="soul-review-card">
+
+        <div class="soul-review-photo">
+          <%= image_tag photo, alt: name %>
+        </div>
+
+        <h3 class="soul-review-name"><%= name %></h3>
+
+        <div class="soul-review-stars">★★★★★</div>
+
+        <p class="soul-review-quote"><%= review %></p>
+
+      </article>
+    <% end %>
+  </div>
+
+</section>
