@@ -1,22 +1,20 @@
 // ---------- Home page ----------
 .home-hero {
-  // Tout est calculé à partir de la taille de l'écran (vw / vh / vmin)
-  --radius: #{"min(44vw, 48vh)"};             // rayon de l'arche
-  --face: #{"clamp(80px, 22vmin, 260px)"};    // taille d'un portrait
-  --heart: #{"clamp(170px, 40vmin, 360px)"};  // largeur du cœur
-  --arch-bottom: 0px; // hauteur du centre de l'arche au-dessus du bas de l'écran
+  --radius: 30vw;
+  --face: clamp(80px, 22vmin, 260px);
+  --heart: clamp(170px, 40vmin, 360px);
+  --arch-bottom: 0px;
   --spin: 30s;
 
-  // Écrans en hauteur (téléphones, tablettes) : on remonte l'arche
-  // pour ne pas laisser un grand vide au milieu de l'écran
   @media (orientation: portrait) {
     --arch-bottom: 26vh;
   }
 
   position: relative;
-  height: 100vh; // plein écran : la navbar flotte par-dessus
-  min-height: 480px;
+  min-height: 100vh;
+  height: auto;
   overflow: hidden;
+  padding-bottom: 2rem;
 }
 
 // ---------- Titre au-dessus de l'arche ----------
@@ -34,7 +32,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  z-index: 0; // derrière le coach (1) et l'arche (2), devant les billets (-1)
+  z-index: 0;
 }
 
 .home-logo {
@@ -45,6 +43,46 @@
   max-width: 100%;
   object-fit: contain;
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
+}
+
+.trust-section {
+  position: absolute;
+  top: calc(var(--navbar-height) + 180px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+
+  h2 {
+    margin: 0;
+    color: #d6336c;
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
+    font-weight: 800;
+    text-shadow: 0 2px 0 #ffc65a;
+  }
+}
+
+.trust-stars {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffc107;
+  font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.trust-rating {
+  position: absolute;
+  top: calc(100% + 1.3rem);
+  left: 50%;
+  transform: translateX(-50%);
+  color: #3a2a3f;
+  font-size: 0.75rem;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .home-title {
@@ -352,4 +390,240 @@
   line-height: 1;
   pointer-events: none;
   will-change: transform, opacity;
+}
+
+/* Affichage des étoiles sous les photos */
+.granny-face {
+  position: relative;
+  overflow: visible;
+}
+
+.granny-face img {
+  border-radius: 50%;
+}
+
+.trust-stars {
+  top: calc(100% + 0.25rem);
+}
+
+.trust-rating {
+  top: calc(100% + 1.5rem);
+}
+
+/* Titre de confiance */
+.trust-title {
+  width: 95%;
+  max-width: 650px;
+  margin: 0 auto 1rem;
+  overflow: visible;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  text {
+    font-family: inherit;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    fill: url(#trust-shine);
+  }
+}
+
+/* Étoiles roses */
+.trust-stars {
+  color: #d6336c;
+  font-size: clamp(1rem, 1.8vw, 1.4rem);
+  font-weight: 900;
+  text-shadow: 0 1px 3px rgba(214, 51, 108, 0.2);
+}
+
+/* Page Anciens Souls */
+
+.anciens-souls-page {
+  min-height: 100vh;
+  padding: 3rem 5% 5rem;
+  text-align: center;
+  background: transparent;
+}
+
+.anciens-souls-heading {
+  margin: 0 auto 3rem;
+}
+
+.anciens-souls-title {
+  color: #3a2a3f;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.anciens-souls-page .trust-title {
+  width: 95%;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.anciens-souls-page .trust-title text {
+  fill: url(#anciens-souls-shine);
+}
+
+.souls-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.soul-review-card {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid rgba(214, 51, 108, 0.15);
+  border-radius: 22px;
+  box-shadow: 0 8px 25px rgba(58, 42, 63, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.soul-review-card:hover {
+  transform: translateY(-8px) rotate(-1deg);
+  box-shadow: 0 14px 30px rgba(214, 51, 108, 0.18);
+}
+
+.soul-review-photo {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 1rem;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 4px solid #d6336c;
+}
+
+.soul-review-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.soul-review-stars {
+  color: #d6336c;
+  font-size: 1.4rem;
+  letter-spacing: 3px;
+  margin-bottom: 0.8rem;
+}
+
+.soul-review-quote {
+  color: #3a2a3f;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Titre animé - Nos Souls */
+
+.anciens-souls-page .trust-title {
+  width: 95%;
+  max-width: 650px;
+  margin: 0 auto 3rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.anciens-souls-page .trust-title:hover {
+  transform: scale(1.06);
+}
+
+/* Nom sous chaque photo */
+
+.soul-review-name {
+  color: #3a2a3f;
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0.5rem 0 0.3rem;
+}
+
+/* Cartes */
+
+.souls-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.soul-review-card {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid rgba(214, 51, 108, 0.15);
+  border-radius: 22px;
+  box-shadow: 0 8px 25px rgba(58, 42, 63, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.soul-review-card:hover {
+  transform: translateY(-8px) rotate(-1deg);
+  box-shadow: 0 14px 30px rgba(214, 51, 108, 0.18);
+}
+
+.soul-review-photo {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 0.5rem;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 4px solid #d6336c;
+}
+
+.soul-review-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.soul-review-stars {
+  color: #d6336c;
+  font-size: 1.4rem;
+  letter-spacing: 3px;
+  margin-bottom: 0.8rem;
+}
+
+.soul-review-quote {
+  color: #3a2a3f;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Titre plus grand et plus lisible sur Nos Souls */
+
+.anciens-souls-page .trust-title {
+  max-width: 760px;
+  filter: drop-shadow(0 3px 4px rgba(58, 42, 63, 0.3));
+}
+
+.anciens-souls-page .trust-title text {
+  font-size: 40px;
+  font-weight: 900;
+}
+
+/* Descendre le cercle rotatif sur la page d'accueil */
+.granny-arch {
+  position: relative;
+  top: 40px;
+}
+
+.home-heading {
+  position: relative;
+  z-index: 10;
+}
+
+.granny-arch {
+  z-index: 1;
 }
