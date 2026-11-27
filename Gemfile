@@ -1,83 +1,62 @@
 source "https://rubygems.org"
 
-# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
+# === Rails et base de données ===
 gem "rails", "~> 8.1.4", ">= 8.1.4.1"
-# The modern asset pipeline for Rails [https://github.com/rails/propshaft]
-# Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
-# Use the Puma web server [https://github.com/puma/puma]
-gem "puma", ">= 5.0"
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails"
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails"
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem "stimulus-rails"
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem "jbuilder"
+gem "pg", "~> 1.1"                    # Base de données PostgreSQL
+gem "bootsnap", require: false        # Réduit le temps de démarrage grâce au cache
 
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+# === Serveur web et déploiement ===
+gem "puma", ">= 5.0"                  # Serveur web
+gem "thruster", require: false        # Cache HTTP et compression pour Puma
+gem "kamal", require: false           # Déploiement en conteneur Docker
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ windows jruby ]
+# === Frontend (JS, CSS, assets) ===
+gem "importmap-rails"                 # JS avec import maps (sans bundler JS)
+gem "turbo-rails"                     # Hotwire : accélérateur de pages
+gem "stimulus-rails"                  # Hotwire : mini-framework JS
+gem "jbuilder"                        # Construction de vues JSON
+gem "sprockets-rails"                 # Pipeline d'assets classique
+gem "bootstrap", "~> 5.3"             # Framework CSS Bootstrap
+gem "autoprefixer-rails"              # Préfixes CSS automatiques
+gem "font-awesome-sass", "~> 6.1"     # Icônes Font Awesome
+gem "sassc-rails"                     # Compilation SCSS
+gem "image_processing", "~> 2.2"      # Variantes d'images (Active Storage)
 
-# Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
-gem "solid_cache"
-gem "solid_queue"
-gem "solid_cable"
+# === Authentification et formulaires ===
+gem "devise"                          # Authentification (inscription, connexion)
+gem "simple_form", github: "heartcombo/simple_form" # Formulaires simplifiés
 
-# Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", require: false
+# === IA (RubyLLM) ===
+gem "ruby_llm", "~> 2.2"              # Interface unifiée vers les IA (OpenAI, etc.)
+gem "kramdown"                        # Conversion Markdown -> HTML
+gem "kramdown-parser-gfm"             # Support du Markdown "GitHub-flavored"
+gem "rouge"                           # Coloration syntaxique des blocs de code
 
-# Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
-gem "kamal", require: false
+# === Divers ===
+gem "tzinfo-data", platforms: %i[ windows jruby ] # Fuseaux horaires (Windows/JRuby)
+gem "ruby-vips", "~> 2.3"             # Traitement d'images (évite un warning Heroku)
 
-# Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
-gem "thruster", require: false
+# === Cache, jobs temps réel (solid suite) ===
+gem "solid_cache"                     # Cache en base de données
+gem "solid_queue"                     # Jobs en arrière-plan
+gem "solid_cable"                     # Action Cable en base de données
 
-# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-gem "image_processing", "~> 2.2"
-
-gem "sprockets-rails"
-gem "bootstrap", "~> 5.3"
-gem "autoprefixer-rails"
-gem "font-awesome-sass", "~> 6.1"
-gem "simple_form", github: "heartcombo/simple_form"
-gem "sassc-rails"
-gem "devise"
-
+# === Développement ET test ===
 group :development, :test do
-  gem "dotenv-rails"
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-
-  # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
-  gem "bundler-audit", require: false
-
-  # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", require: false
-
-  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-  gem "rubocop-rails-omakase", require: false
+  gem "dotenv-rails"                  # Charge les variables du fichier .env (secrets locaux)
+  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude" # Débogage
+  gem "bundler-audit", require: false # Détecte les failles de sécurité dans les gemmes
+  gem "brakeman", require: false      # Analyse statique de sécurité Rails
+  gem "rubocop-rails-omakase", require: false # Style de code Ruby (linting)
 end
 
+# === Développement uniquement ===
 group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem "web-console"
+  gem "web-console"                   # Console interactif sur les pages d'erreur
 end
 
+# === Test uniquement ===
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
+  gem "capybara"                      # Tests d'interface simulés
+  gem "selenium-webdriver"            # Pilote navigateur pour Capybara
 end
-
-gem "ruby_llm", "~> 2.2"
-gem "kramdown"
-gem "rouge"
-gem "kramdown-parser-gfm"
-
-# add ruby-vips gem because of the migration failure towards heroku to deal with warning regarding image variants
-
-gem "ruby-vips", "~> 2.3"

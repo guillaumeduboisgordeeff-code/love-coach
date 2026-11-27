@@ -1,0 +1,119 @@
+// =====================================================================
+// PAGE DÉTAIL D'UN MASTERPLAN (liste des tâches)
+// =====================================================================
+
+// Titre principal : centré, plus gros, en gras, avec de la marge sous la navbar
+.titre-masterplan {
+  text-align: center;                // Centre le texte horizontalement
+  font-size: 4.5rem;                 // Titre bien gros
+  font-weight: 800;                  // Titre en gras
+  margin-top: 90px;                  // Marge sous la navbar
+  margin-bottom: 20px;               // Espace avant le sous-titre
+}
+
+// Sous-titre : centré, avec plus d'espace avant la liste
+.sous-titre-masterplan {
+  text-align: center;                // Centre le texte horizontalement
+  font-size: 2.5rem;                 // Sous-titre un peu moins gros que le titre
+  margin-bottom: 60px;               // Plus d'espace entre le sous-titre et la liste
+}
+
+// ---------------------------------------------------------------------
+// LA CARTE "DIDDLE" EN FOND DE LA LISTE
+// ---------------------------------------------------------------------
+
+// Conteneur de la liste : très large, avec un fond de carte texturé papier
+.liste-masterplan {
+  position: relative;                // Garde les tâches bien positionnées
+  width: 95%;                        // Conteneur large
+  max-width: 1400px;                 // Limite sur grand écran
+  margin: 0 auto 40px;               // Centré horizontalement, espace en dessous
+  padding: 40px 50px;                // Espace intérieur autour des tâches
+  background-color: #fffdf5;         // Couleur crème de base (visible sous la texture)
+  background-image: image-url("papier.png"); // Texture papier qui se répète en mosaïque
+  border: 4px solid #3a2a3f;         // Contour épais foncé style "dessiné"
+  border-radius: 24px;               // Coins bien arrondis
+  box-shadow: 8px 8px 0 #3a2a3f;     // Ombre pleine décalée (effet carte diddle)
+  list-style: none;                  // Retire les puces de la liste
+}
+
+// Espace entre chaque tâche de la liste
+.liste-masterplan .tache {
+  margin-bottom: 28px;               // Aère les lignes entre elles
+}
+
+// Pas de marge sous la dernière tâche
+.liste-masterplan .tache:last-child {
+  margin-bottom: 0;                  // Évite un trop grand espace en bas de la carte
+}
+
+// ---------------------------------------------------------------------
+// LA CASE À COCHER
+// ---------------------------------------------------------------------
+
+// Conteneur d'une case + son texte
+.case-a-cocher {
+  display: flex;                     // Aligne la case et le texte sur une ligne
+  align-items: center;               // Centre verticalement la case par rapport au texte
+  gap: 20px;                         // Espace entre la case et le texte
+  cursor: pointer;                   // Curseur main au survol
+}
+
+// On cache la vraie case à cocher (on garde seulement la case visuelle)
+.case-a-cocher input[type="checkbox"] {
+  display: none;                     // Masque la vraie case du navigateur
+}
+
+// La case visuelle (vide)
+.case-visuelle {
+  position: relative;                // Permet de placer l'emoji à l'intérieur
+  flex-shrink: 0;                    // Empêche la case de se réduire si le texte est long
+  width: 56px;                       // Largeur de la case
+  height: 56px;                      // Hauteur de la case
+  border: 3px solid #d6336c;         // Contour rose
+  border-radius: 12px;               // Coins arrondis
+  background: white;                 // Fond blanc quand la case est vide
+  transition: transform 150ms ease;  // Animation douce au survol
+}
+
+// Au survol, la case grossit un peu
+.case-a-cocher:hover .case-visuelle {
+  transform: scale(1.1);             // Agrandit légèrement la case
+}
+
+// L'emoji 💸 affiché dans la case quand elle est cochée
+.case-a-cocher input[type="checkbox"]:checked + .case-visuelle::after {
+  content: "💸";                     // L'emoji affiché (billet avec des ailes)
+  position: absolute;                // Placé à l'intérieur de la case
+  top: 50%;                          // Centré verticalement
+  left: 50%;                         // Centré horizontalement
+  transform: translate(-50%, -50%);  // Ajuste le point de centrage
+  font-size: 50px;                   // Taille max : 56px (case) - 2 × 3px (contour)
+  line-height: 1;                    // Évite un décalage vertical
+}
+
+// ---------------------------------------------------------------------
+// LE TEXTE DES TÂCHES
+// ---------------------------------------------------------------------
+
+// Texte d'une tâche
+.texte-tache {
+  font-size: 1.6rem;                 // Taille du texte des tâches
+}
+
+// Texte d'une tâche terminée : barré et grisé
+.texte-tache.terminee {
+  text-decoration: line-through;     // Barre le texte
+  opacity: 0.5;                      // Le rend plus pâle
+}
+
+// ---------------------------------------------------------------------
+// LE BOUTON DE RETOUR
+// ---------------------------------------------------------------------
+
+// Conteneur du bouton de retour : centre le bouton uniquement sur cette page
+.conteneur-retour {
+  display: flex;                     // Active flexbox pour centrer le bouton
+  justify-content: center;           // Centre le bouton horizontalement
+  margin: 40px 0;                    // Espace au-dessus et en dessous
+}
