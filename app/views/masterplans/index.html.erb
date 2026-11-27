@@ -4,16 +4,16 @@
     <%# Hero : titre, puis le coach qui flambe ses billets à côté du gros cœur %>
     <div class="masterplans-hero">
       <header class="masterplans-heading">
+        <div>
         <h1>Mes plans pour rencontrer un riche</h1>
-        <p>Chaque histoire de succès commence par la rencontre d'un riche.</p>
-      </header>
-
-      <div class="masterplans-finale">
-        <%= image_tag "love-coach-flex-money.png", alt: "", class: "masterplans-coach", aria: { hidden: true } %>
+        <p class="chaque">Chaque histoire de succès commence par la rencontre d'un riche.</p>
+        </div>
+        <div class="masterplans-finale">
         <%= button_to (@masterplans.empty? ? "Définir une cible" : "Nouvelle séduction !"), chats_path,
             class: "masterplans-cta",
             form: { class: "masterplans-cta-form" } %>
       </div>
+      </header>
     </div>
 
     <% if @masterplans.empty? %>
@@ -69,7 +69,12 @@
         <% end %>
 
       </section>
-
+      <div class="masterplans-finale">
+        <%= image_tag "love-coach-flex-money.png", alt: "", class: "masterplans-coach", aria: { hidden: true } %>
+        <%= button_to (@masterplans.empty? ? "Définir une cible" : "Nouvelle séduction !"), chats_path,
+            class: "masterplans-cta",
+            form: { class: "masterplans-cta-form" } %>
+      </div>
 
     <% end %>
   </div>

@@ -1,0 +1,27 @@
+// Curseur Cupidon (controllers/cupid_cursor_controller.js)
+
+.cupid-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2147483647; // au-dessus de tout, modales comprises
+  width: 96px; // taille du Cupidon (le point de clic suit automatiquement)
+  height: auto;
+  pointer-events: none; // les clics passent à travers
+  user-select: none;
+  will-change: transform;
+}
+
+html:not(.has-cupid-cursor) .cupid-cursor {
+  display: none;
+}
+
+// Curseur système masqué partout dès qu'il y a une souris (pas sur tactile).
+// Sans passer par la classe JS : il est caché dès le chargement de la page.
+@media (hover: hover) and (pointer: fine) {
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+}

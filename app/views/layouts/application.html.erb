@@ -23,7 +23,8 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body data-controller="fur-buttons"> <%# fourrure sur les boutons : controllers/fur_buttons_controller.js %>
+  <body data-controller="fur-buttons cupid-cursor"> <%# fourrure sur les boutons : controllers/fur_buttons_controller.js — curseur Cupidon : controllers/cupid_cursor_controller.js %>
+    <%= image_tag "cupidon_level_2_flipped.png", alt: "", class: "cupid-cursor", hidden: true, aria: { hidden: true }, data: { cupid_cursor_target: "image" } %>
     <%= link_to "Skip to main content", "#main-content", class: "visually-hidden-focusable" %>
   <%= render "shared/money_rain" %>
   <header class="site-header">
