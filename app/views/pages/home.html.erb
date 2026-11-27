@@ -29,7 +29,10 @@
       <!-- </text> -->
     <!-- </svg> -->
   <!-- </h2> -->
-    <div class="granny-arch" aria-hidden="true">
+  </div>
+
+  <%# L'arche doit rester enfant direct de .home-hero : son bottom se cale sur le bas de l'écran %>
+  <div class="granny-arch" aria-hidden="true">
       <div class="granny-ring">
         <% photos = %w[riche1.jpeg riche2.jpg riche3.jpg riche4.jpg riche5.jpeg
                        riche6.jpg riche7.jpg riche8.jpg riche9.jpeg riche10.jpg] %>
@@ -42,7 +45,6 @@
           </div>
         <% end %>
       </div>
-    </div>
   </div>
 
   <% if user_signed_in? %>
