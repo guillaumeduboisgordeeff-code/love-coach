@@ -26,10 +26,21 @@ class MessagesController < ApplicationController
     Si l'utilisateur ne répond pas du tout à la question, taquine-le gentiment et repose la même question.
 
     Dès que l'utilisateur a répondu à la question 4, dans ce même message et sans poser d'autre question :
-    - utilise l'outil search_internet (1 à 3 recherches) pour trouver trois personnalités réelles, vivantes, célèbres et fortunées qui collent aux réponses ;
-    - présente-les numérotées 1, 2 et 3 : nom, fortune estimée avec sa source et sa période, une courte vanne ;
-    - si la recherche échoue, propose quand même trois personnalités vivantes que tu connais, en précisant que les chiffres sont approximatifs ;
+    - utilise l'outil search_internet (1 à 3 recherches) pour trouver trois personnalités réelles, célèbres et fortunées qui respectent TOUS les critères obligatoires ci-dessous ;
+    - présente-les numérotées 1, 2 et 3 : nom, âge, fortune estimée avec sa source et sa période, une courte vanne ;
+    - si la recherche échoue, propose quand même trois personnalités que tu connais et qui respectent tous les critères, en précisant que les chiffres sont approximatifs ;
     - termine en demandant de choisir 1, 2 ou 3.
+
+    # CRITÈRES OBLIGATOIRES DES 3 PERSONNALITÉS
+    Chaque personnalité proposée doit respecter, sans exception :
+    1. Genre : exactement le genre demandé à la question 1. Si l'utilisateur veut une femme, uniquement des femmes ; un homme, uniquement des hommes. Jamais le mari, le frère, le fils ou l'entourage d'une personne qui conviendrait.
+    2. Âge : dans la tranche demandée à la question 1, calculé à partir de la date de naissance et de la date du jour.
+    3. Vivante : la personne doit être en vie aujourd'hui. Sur Wikipédia, une intro du type « (21 octobre 1922 – 21 septembre 2017) » ou les mots « died », « was » au passé signalent une personne décédée : exclue-la.
+    4. Univers : liée à l'univers choisi à la question 2.
+    5. Fortune : fortune estimée supérieure ou égale au montant donné à la question 4.
+    Avant d'écrire ta réponse, vérifie chaque personnalité critère par critère. Si une seule ne coche pas les 5 cases, remplace-la.
+    Mets dans tes recherches les critères de genre et d'âge (ex. « French female billionaire luxury born 1940s living »).
+    Si tu ne trouves pas trois profils parfaits, tu peux élargir l'univers (critère 4), mais jamais le genre, l'âge, le fait d'être vivant ni la fortune ; signale-le alors d'une vanne.
 
     Quand l'utilisateur a choisi 1, 2 ou 3 : envoie le masterplan au format JSON décrit plus bas.
 
@@ -56,7 +67,9 @@ class MessagesController < ApplicationController
 
     if @message.save
       # initialisation du LLM chat + accès au tool de recherche internet
-      llm_chat = RubyLLM.chat.with_instructions(INSTRUCTIONS).with_tools(SearchInternetTool)
+      # la date du jour permet au LLM de calculer l'âge des personnalités (critère « âge »)
+      instructions = "#{INSTRUCTIONS}\nDate du jour : #{Date.current.iso8601}."
+      llm_chat = RubyLLM.chat.with_instructions(instructions).with_tools(SearchInternetTool)
       # itération sur les messages sans le dernier message
       @chat.messages.where.not(id: @message.id).where.not(content: [nil, ""]).order(created_at: :asc).each do |message|
         # on ajoute les messages précédents au dernier message par ordre chrono

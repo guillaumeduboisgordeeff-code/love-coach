@@ -5,9 +5,10 @@
 // La navbar flotte par-dessus le haut de la page : là où le léopard est
 // transparent, on voit le fond de la page (et non plus le fond gris du body).
 // Classe dédiée (et pas la balise `header`), sinon les <header> des pages
-// (ex. .masterplans-heading) passent aussi en absolute par-dessus la navbar.
+// (ex. .masterplans-heading) passent aussi en fixed par-dessus la navbar.
+// fixed (et pas absolute) : la navbar reste collée en haut quand on scrolle, sur toutes les pages.
 .site-header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
