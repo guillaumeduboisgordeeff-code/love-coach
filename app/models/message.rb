@@ -13,4 +13,9 @@ class Message < ApplicationRecord
   def broadcast_bubble
     broadcast_replace_to chat, partial: "chats/message", locals: { message: self }
   end
+
+  # méthode de mise à jour du contenu en streaming
+  def broadcast_content
+    broadcast_update_to chat, target: ActionView::RecordIdentifier.dom_id(self, :content), partial: "chats/message_content", locals: { message: self }
+  end
 end

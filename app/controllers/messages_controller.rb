@@ -74,8 +74,17 @@ class MessagesController < ApplicationController
       data = parse_masterplan(@assistant_message.content)
       # on crée le masterplan
       create_masterplan!(@assistant_message, data) if data
-      # dernier broadcast : version finale de la bulle (ou carte masterplan)
-      @assistant_message.reload.broadcast_bubble
+      # dernier broadcast : version finale de la bulle
+      # reload : recharge le message pour qu'il "voie" le masterplan qui vient d'être créé
+      @assistant_message.reload
+      if @assistant_message.masterplan
+        # masterplan : la bulle ELLE-MÊME doit changer (classe message__bubble--masterplan = style carte),
+        # donc on REMPLACE tout le message (replace) -> 1 pop + le rire de validation
+        @assistant_message.broadcast_bubble
+      else
+        # texte : seul le CONTENU de la bulle change (update) -> pas de pop ni de son en plus
+        @assistant_message.broadcast_content
+      end
       # affichage sans rechargement avec turbostream et fallback html si turbo inactif sur nav
       respond_to do |format|
         format.turbo_stream
@@ -109,7 +118,7 @@ class MessagesController < ApplicationController
     return if text.empty?
 
     @assistant_message.content += text
-    @assistant_message.broadcast_bubble unless @assistant_message.content.lstrip.start_with?("{")
+    @assistant_message.broadcast_content unless @assistant_message.content.lstrip.start_with?("{")
   end
 
   def message_params
