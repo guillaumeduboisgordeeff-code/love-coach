@@ -17,12 +17,37 @@ end # Termine le bloc de création de Thomas.
 puts "Creating masterplans..."
 
 
-masterplans = [ # Prépare les données des cinq masterplans.
-  { user: user1, target_name: "Camille Dubois", tasks: [["Préparer une première conversation", true], ["Trouver un sujet commun", false], ["Proposer une sortie respectueuse", false]] }, # Premier masterplan d’Antoine, avec des tâches terminées et à faire.
-  { user: user1, target_name: "Éléonore Moreau", tasks: [["Choisir un lieu de rencontre", false], ["Préparer des sujets de discussion", false]] }, # Deuxième masterplan d’Antoine.
-  { user: user1, target_name: "Inès Laurent", tasks: [["Faire connaissance", true], ["Proposer une activité", false]] }, # Troisième masterplan d’Antoine.
-  { user: user1, target_name: "Margot Lefèvre", tasks: [["Envoyer un premier message", false], ["Organiser une sortie", false]] }, # Quatrième masterplan d’Antoine.
-  { user: user2, target_name: "Clara Bernard", tasks: [["Engager une conversation", false], ["Écouter ses centres d’intérêt", true]] } # Masterplan de Thomas, différent de ceux d’Antoine.
+masterplans = [ # Prépare les données des masterplans.
+
+  # ---- Masterplans d'Antoine pour Beyoncé ----
+  { user: user1, target_name: "Beyoncé", tasks: [
+    ["Apprendre l'anglais couramment", false],          # Étape accessible : parler sa langue.
+    ["Composer une chanson dédiée à Beyoncé", false],   # Étape cohérente : c'est une chanteuse.
+    ["Créer une fausse page Wikipedia de notre rencontre", false], # Étape loufoque.
+    ["Assister à un concert de la Renaissance Tour", false],       # Étape réaliste pour la voir.
+    ["Se faire remarquer par la team Beyhive", true]    # Première tâche déjà accomplie.
+  ] }, # Masterplan 1 d'Antoine.
+
+  # ---- Masterplans d'Antoine pour Shakira ----
+  { user: user1, target_name: "Shakira", tasks: [
+    ["Apprendre l'espagnol", false],                        # Étape accessible : sa langue maternelle.
+    ["Prendre des cours de danse du ventre", false],        # Étape cohérente : elle danse.
+    ["Faire croire à la presse qu'on est en couple", false], # Étape loufoque.
+    ["Envoyer une démo de chanson à son label", false],     # Étape pour se faire connaître d'elle.
+    ["Apprendre par cœur tous ses albums", true]            # Tâche déjà terminée.
+  ] }, # Masterplan 2 d'Antoine.
+
+  # ---- Masterplans d'Antoine pour Angela Kermek ----
+  { user: user1, target_name: "Angela Kermek", tasks: [
+    ["Apprendre l'allemand", false],                          # Étape accessible : parler sa langue.
+    ["Découvrir les industries dont elle est propriétaire", false], # Étape cohérente : c'est une femme d'affaires.
+    ["Inventer un lien de parenté imaginaire avec elle", false],    # Étape loufoque.
+    ["Espionner discrètement ses stratégies d'investissement", false], # Étape pour comprendre son empire.
+    ["Rejoindre un gala où elle est invitée", true]           # Tâche déjà accomplie.
+  ] }, # Masterplan 3 d'Antoine.
+
+  # ---- Masterplan de Thomas (inchangé) ----
+  { user: user2, target_name: "Clara Bernard", tasks: [["Engager une conversation", false], ["Écouter ses centres d'intérêt", true]] } # Masterplan de Thomas.
 ] # Termine la liste des masterplans.
 
 
