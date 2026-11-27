@@ -613,14 +613,9 @@
   font-weight: 900;
 }
 
-/* Descendre le cercle rotatif sur la page d'accueil */
-.granny-arch {
-  position: relative;
-  top: 40px;
-}
-
+// Garder le titre au-dessus de l'arche (sans toucher à position: absolute,
+// sinon l'arche et le titre perdent leur placement en bas de l'écran)
 .home-heading {
-  position: relative;
   z-index: 10;
 }
 
