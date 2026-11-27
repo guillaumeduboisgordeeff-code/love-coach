@@ -1,7 +1,9 @@
 // =====================================================================
 // PAGE DÉTAIL D'UN MASTERPLAN (liste des tâches)
 // =====================================================================
-
+body {
+  overflow-x: hidden;
+}
 // Titre principal : centré, plus gros, en gras, avec de la marge sous la navbar
 .titre-masterplan {
   text-align: center;                // Centre le texte horizontalement
@@ -116,4 +118,18 @@
   display: flex;                     // Active flexbox pour centrer le bouton
   justify-content: center;           // Centre le bouton horizontalement
   margin: 40px 0;                    // Espace au-dessus et en dessous
+}
+
+.masterplan-cupidons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -100px;
+}
+
+.masterplan-cupidon {
+  transform: rotate(-35deg);
+}
+
+.masterplan-cupidon2 {
+  transform: scaleX(-1) rotate(-35deg); // miroir exact du premier cupidon
 }
